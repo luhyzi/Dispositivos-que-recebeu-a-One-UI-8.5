@@ -202,14 +202,12 @@
             color: #4ade80;
         }
 
-        /* Badge do Contador de Visualizações */
         .badge-views {
             background: rgba(59, 130, 246, 0.1);
             border-color: rgba(59, 130, 246, 0.3);
             color: #60a5fa;
         }
 
-        /* ANIMAÇÃO DA BOLINHA PULSANDO */
         .pulse-dot {
             width: 10px;
             height: 10px;
@@ -221,18 +219,9 @@
         }
 
         @keyframes pulse-animation {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-            }
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
-            }
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-            }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
 
         .subtitle {
@@ -409,7 +398,7 @@
             <div class="badge badge-live">
                 <span class="pulse-dot"></span> Ao vivo
             </div>
-            <div class="badge badge-views">
+            <div class="badge badge-views" title="Visualizações reais">
                 <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
                 <span id="page-views">...</span>
             </div>
@@ -618,41 +607,48 @@
         });
 
         // -----------------------------------------------------
-        // LÓGICA DE VISUALIZAÇÕES (Conectado à API Global)
+        // LÓGICA DE VISUALIZAÇÕES (Com Sistema de Backup)
         // -----------------------------------------------------
         
-        const SITE_NAMESPACE = "oneui85_page_views_v1";
+        const SITE_NAMESPACE = "oneui85_page_views_v1"; // ID único do site
+        const COUNTER_KEY = "visitas_totais"; // Chave da contagem
 
         async function trackPageView() {
             const viewsSpan = document.getElementById('page-views');
             
-            // Verifica no armazenamento do navegador se a pessoa já abriu o site antes
+            // Verifica no armazenamento se a pessoa já visitou e o último número salvo
             const hasVisited = localStorage.getItem('hasVisitedOneUI85');
+            let backupCount = localStorage.getItem('backupViewCount') || "...";
 
             try {
+                let response;
+                
                 if (!hasVisited) {
-                    // É a primeira vez visitando: Soma +1 na nuvem real
-                    const response = await fetch(`https://api.counterapi.dev/v1/${SITE_NAMESPACE}/visits/up`);
-                    const data = await response.json();
-                    viewsSpan.textContent = data.count;
-                    
-                    // Salva que a pessoa já visitou para não somar de novo se ela recarregar a página
+                    // É a primeira visita do usuário: Soma +1 na nuvem real
+                    response = await fetch(`https://api.counterapi.dev/v1/${SITE_NAMESPACE}/${COUNTER_KEY}/up`);
                     localStorage.setItem('hasVisitedOneUI85', 'true');
                 } else {
-                    // Já visitou antes: Apenas busca o número total de visitas atualizado sem somar
-                    const response = await fetch(`https://api.counterapi.dev/v1/${SITE_NAMESPACE}/visits`);
+                    // Já visitou antes: Apenas busca o número sem somar
+                    response = await fetch(`https://api.counterapi.dev/v1/${SITE_NAMESPACE}/${COUNTER_KEY}`);
+                }
+
+                if (response.ok) {
                     const data = await response.json();
                     viewsSpan.textContent = data.count;
+                    // Salva o novo número no "cofre" de backup
+                    localStorage.setItem('backupViewCount', data.count);
+                } else {
+                    // Se a API bloqueou por causa de refresh rápido, exibe o backup
+                    viewsSpan.textContent = backupCount !== "..." ? backupCount : "Offline";
                 }
+
             } catch (error) {
-                // Caso a conexão com a API falhe, não quebra a tela
-                viewsSpan.textContent = "Offline";
+                // Se o usuário ficar sem internet na hora do refresh, exibe o backup
+                viewsSpan.textContent = backupCount !== "..." ? backupCount : "Offline";
             }
         }
 
-        // Executa a função assim que o script carrega
         trackPageView();
-        
     </script>
 </body>
 </html>
