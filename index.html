@@ -202,12 +202,6 @@
             color: #4ade80;
         }
 
-        .badge-views {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: rgba(59, 130, 246, 0.3);
-            color: #60a5fa;
-        }
-
         .pulse-dot {
             width: 10px;
             height: 10px;
@@ -398,10 +392,6 @@
             <div class="badge badge-live">
                 <span class="pulse-dot"></span> Ao vivo
             </div>
-            <div class="badge badge-views" title="Visualizações reais">
-                <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
-                <span id="page-views">...</span>
-            </div>
         </div>
 
         <p class="subtitle">Fonte: Samsung Apks New | Válido para versões LTE e 5G</p>
@@ -506,7 +496,7 @@
             <div class="category">
                 <h2>Linha A1x</h2>
                 <div class="device"><span class="name">A17 5G</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">A17 LTE</span><span class="dot red"></span></div>
+                <div class="device"><span class="name">A17 LTE</span><span class="dot yellow"></span></div>
                 <div class="device"><span class="name">A16 5G</span><span class="dot yellow"></span></div>
                 <div class="device"><span class="name">A16 LTE</span><span class="dot red"></span></div>
                 <div class="device"><span class="name">A15 5G</span><span class="dot red"></span></div>
@@ -612,49 +602,6 @@
             noResults.style.display = (!globalMatch && term !== '') ? 'block' : 'none';
         });
 
-        // -----------------------------------------------------
-        // LÓGICA DE VISUALIZAÇÕES (Com Sistema de Backup)
-        // -----------------------------------------------------
-        
-        const SITE_NAMESPACE = "oneui85_page_views_v1"; // ID único do site
-        const COUNTER_KEY = "visitas_totais"; // Chave da contagem
-
-        async function trackPageView() {
-            const viewsSpan = document.getElementById('page-views');
-            
-            // Verifica no armazenamento se a pessoa já visitou e o último número salvo
-            const hasVisited = localStorage.getItem('hasVisitedOneUI85');
-            let backupCount = localStorage.getItem('backupViewCount') || "...";
-
-            try {
-                let response;
-                
-                if (!hasVisited) {
-                    // É a primeira visita do usuário: Soma +1 na nuvem real
-                    response = await fetch(`https://api.counterapi.dev/v1/${SITE_NAMESPACE}/${COUNTER_KEY}/up`);
-                    localStorage.setItem('hasVisitedOneUI85', 'true');
-                } else {
-                    // Já visitou antes: Apenas busca o número sem somar
-                    response = await fetch(`https://api.counterapi.dev/v1/${SITE_NAMESPACE}/${COUNTER_KEY}`);
-                }
-
-                if (response.ok) {
-                    const data = await response.json();
-                    viewsSpan.textContent = data.count;
-                    // Salva o novo número no "cofre" de backup
-                    localStorage.setItem('backupViewCount', data.count);
-                } else {
-                    // Se a API bloqueou por causa de refresh rápido, exibe o backup
-                    viewsSpan.textContent = backupCount !== "..." ? backupCount : "Offline";
-                }
-
-            } catch (error) {
-                // Se o usuário ficar sem internet na hora do refresh, exibe o backup
-                viewsSpan.textContent = backupCount !== "..." ? backupCount : "Offline";
-            }
-        }
-
-        trackPageView();
     </script>
 </body>
 </html>
