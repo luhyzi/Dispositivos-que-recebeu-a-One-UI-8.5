@@ -396,7 +396,7 @@
         </div>
 
         <div class="status-badges">
-            <div class="badge">Atualizado: 27/05</div>
+            <div class="badge">Atualizado: 28/05</div>
             <div class="badge badge-live">
                 <span class="pulse-dot"></span> Ao vivo
             </div>
@@ -529,7 +529,7 @@
                 <h2>Linha M5x</h2>
                 <div class="device"><span class="name">M56</span><span class="dot yellow"></span></div>
                 <div class="device"><span class="name">M55s</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">M55</span><span class="dot red"></span></div>
+                <div class="device"><span class="name">M55</span><span class="dot yellow"></span></div>
                 <div class="device"><span class="name">M54</span><span class="dot red"></span></div>
                 <div class="device"><span class="name">M53</span><span class="dot red"></span></div>
             </div>
@@ -579,7 +579,6 @@
     <script>
         lucide.createIcons();
 
-        // Lógica de Pesquisa
         const searchInput = document.getElementById('search-input');
         const wrappers = document.querySelectorAll('.card-wrapper');
         const noResults = document.getElementById('no-results');
@@ -615,17 +614,14 @@
         // -----------------------------------------------------
         const cards = document.querySelectorAll('.card-wrapper');
 
-        // Função para apagar o brilho de todos os cards
         function removeAllGlows() {
             cards.forEach(c => c.classList.remove('active-glow'));
         }
 
         cards.forEach(card => {
             card.addEventListener('click', (e) => {
-                // Impede que o clique acione o evento do "document" que apaga tudo imediatamente
                 e.stopPropagation(); 
                 
-                // Se esse card já estiver aceso, apagamos. Se não, apaga os outros e acende esse.
                 const wasActive = card.classList.contains('active-glow');
                 removeAllGlows();
                 if (!wasActive) {
@@ -634,12 +630,10 @@
             });
         });
 
-        // Se rolar a página, o brilho apaga
         window.addEventListener('scroll', () => {
             removeAllGlows();
         }, { passive: true });
 
-        // Se clicar/tocar em qualquer outro lugar fora dos cards, o brilho apaga
         document.addEventListener('click', () => {
             removeAllGlows();
         });
