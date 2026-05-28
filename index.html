@@ -238,32 +238,37 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
+        /* Efeito físico de clique no card */
+        .card-wrapper:active {
+            transform: scale(0.97);
+        }
+
+        /* O brilho oculto por padrão */
         .card-glow {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%;
-            height: 60%;
-            filter: blur(35px);
-            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            filter: blur(25px);
+            border-radius: 16px;
             z-index: 0;
-            opacity: 0.5;
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            opacity: 0; 
+            transition: opacity 0.4s ease;
         }
 
         .glow-s { background: linear-gradient(45deg, #a855f7, #3b82f6); }
         .glow-a { background: linear-gradient(45deg, #3b82f6, #10b981); }
         .glow-m { background: linear-gradient(45deg, #f43f5e, #f59e0b); }
 
-        .card-wrapper:hover .card-glow,
-        .card-wrapper:active .card-glow {
-            width: 45%;
-            height: 110%;
-            opacity: 1;
-            border-radius: 40px;
+        /* A classe .active-glow é ativada via JavaScript quando clicado */
+        .card-wrapper.active-glow .card-glow {
+            opacity: 0.45;
         }
 
         .category {
@@ -279,7 +284,8 @@
             transition: border-color 0.3s ease;
         }
 
-        .card-wrapper:hover .category {
+        /* Opcional: A borda fica levemente mais clara enquanto ele está ativo */
+        .card-wrapper.active-glow .category {
             border-color: rgba(255,255,255,0.25);
         }
 
@@ -289,6 +295,7 @@
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            pointer-events: none;
         }
 
         .device {
@@ -298,6 +305,7 @@
             padding: 10px 0;
             font-size: 0.95rem;
             font-weight: 600;
+            pointer-events: none;
         }
 
         .device:not(:last-child) {
@@ -600,6 +608,40 @@
             });
 
             noResults.style.display = (!globalMatch && term !== '') ? 'block' : 'none';
+        });
+
+        // -----------------------------------------------------
+        // Lógica do Brilho nos Cards (Ativa no clique/toque, desativa no scroll/clique fora)
+        // -----------------------------------------------------
+        const cards = document.querySelectorAll('.card-wrapper');
+
+        // Função para apagar o brilho de todos os cards
+        function removeAllGlows() {
+            cards.forEach(c => c.classList.remove('active-glow'));
+        }
+
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Impede que o clique acione o evento do "document" que apaga tudo imediatamente
+                e.stopPropagation(); 
+                
+                // Se esse card já estiver aceso, apagamos. Se não, apaga os outros e acende esse.
+                const wasActive = card.classList.contains('active-glow');
+                removeAllGlows();
+                if (!wasActive) {
+                    card.classList.add('active-glow');
+                }
+            });
+        });
+
+        // Se rolar a página, o brilho apaga
+        window.addEventListener('scroll', () => {
+            removeAllGlows();
+        }, { passive: true });
+
+        // Se clicar/tocar em qualquer outro lugar fora dos cards, o brilho apaga
+        document.addEventListener('click', () => {
+            removeAllGlows();
         });
 
     </script>
