@@ -173,7 +173,6 @@
         .dot.yellow { background-color: var(--yellow); box-shadow: 0 0 10px var(--yellow); }
         .dot.red { background-color: var(--red); box-shadow: 0 0 10px var(--red); }
 
-        /* PÍLULAS (BADGES) */
         .status-badges {
             display: flex;
             gap: 12px;
@@ -242,12 +241,10 @@
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Efeito físico de clique no card */
         .card-wrapper:active {
             transform: scale(0.97);
         }
 
-        /* O brilho oculto por padrão */
         .card-glow {
             position: absolute;
             top: 50%;
@@ -266,7 +263,6 @@
         .glow-a { background: linear-gradient(45deg, #3b82f6, #10b981); }
         .glow-m { background: linear-gradient(45deg, #f43f5e, #f59e0b); }
 
-        /* A classe .active-glow é ativada via JavaScript quando clicado */
         .card-wrapper.active-glow .card-glow {
             opacity: 0.45;
         }
@@ -284,7 +280,6 @@
             transition: border-color 0.3s ease;
         }
 
-        /* Opcional: A borda fica levemente mais clara enquanto ele está ativo */
         .card-wrapper.active-glow .category {
             border-color: rgba(255,255,255,0.25);
         }
@@ -310,6 +305,32 @@
 
         .device:not(:last-child) {
             border-bottom: 1px dashed rgba(255,255,255,0.05);
+        }
+
+        /* TAGS DE DATAS */
+        .device-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-pill {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .date-pill.scheduled {
+            color: #60a5fa;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .date-pill.available {
+            color: #4ade80;
+            background: rgba(34, 197, 94, 0.1);
         }
 
         .search-wrapper {
@@ -396,7 +417,7 @@
         </div>
 
         <div class="status-badges">
-            <div class="badge">Atualizado: 28/05</div>
+            <div class="badge">Atualizado: 28 de maio</div>
             <div class="badge badge-live">
                 <span class="pulse-dot"></span> Ao vivo
             </div>
@@ -406,15 +427,16 @@
     </header>
 
     <main id="device-container">
+        <!-- LINHA S -->
         <div class="card-wrapper">
             <div class="card-glow glow-s"></div>
             <div class="category">
                 <h2>Linha S25</h2>
-                <div class="device"><span class="name">S25</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S25+</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S25 Ultra</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S25 FE</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S25 Edge</span><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S25</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S25+</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S25 Ultra</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S25 FE</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S25 Edge</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
             </div>
         </div>
 
@@ -422,10 +444,10 @@
             <div class="card-glow glow-s"></div>
             <div class="category">
                 <h2>Linha S24</h2>
-                <div class="device"><span class="name">S24</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S24+</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S24 Ultra</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S24 FE</span><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S24</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S24+</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S24 Ultra</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S24 FE</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
             </div>
         </div>
 
@@ -433,10 +455,10 @@
             <div class="card-glow glow-s"></div>
             <div class="category">
                 <h2>Linha S23</h2>
-                <div class="device"><span class="name">S23</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S23+</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S23 Ultra</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">S23 FE</span><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S23</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S23+</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S23 Ultra</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S23 FE</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
             </div>
         </div>
 
@@ -454,15 +476,16 @@
             <div class="card-glow glow-s"></div>
             <div class="category">
                 <h2>Linha S21</h2>
-                <div class="device"><span class="name">S21 FE</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">S21 FE</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
             </div>
         </div>
 
+        <!-- LINHA A -->
         <div class="card-wrapper">
             <div class="card-glow glow-a"></div>
             <div class="category">
                 <h2>Linha A7x</h2>
-                <div class="device"><span class="name">A73</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A73</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -470,10 +493,10 @@
             <div class="card-glow glow-a"></div>
             <div class="category">
                 <h2>Linha A5x</h2>
-                <div class="device"><span class="name">A56</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">A55</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">A54</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">A53</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A56</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A55</span><span class="date-pill"></span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A54</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A53</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -481,10 +504,10 @@
             <div class="card-glow glow-a"></div>
             <div class="category">
                 <h2>Linha A3x</h2>
-                <div class="device"><span class="name">A36</span><span class="dot green"></span></div>
-                <div class="device"><span class="name">A35</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">A34</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">A33</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A36</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A35</span><span class="date-pill"></span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A34</span><span class="date-pill scheduled">30 de maio</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A33</span><span class="date-pill"></span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -492,10 +515,10 @@
             <div class="card-glow glow-a"></div>
             <div class="category">
                 <h2>Linha A2x</h2>
-                <div class="device"><span class="name">A26</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">A25</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">A24 5G</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">A24 LTE</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A26</span><span class="date-pill scheduled">31 de maio a junho</span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A25</span><span class="date-pill scheduled">31 de maio a junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A24 5G</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A24 LTE</span><span class="date-pill"></span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -503,12 +526,12 @@
             <div class="card-glow glow-a"></div>
             <div class="category">
                 <h2>Linha A1x</h2>
-                <div class="device"><span class="name">A17 5G</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">A17 LTE</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">A16 5G</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">A16 LTE</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">A15 5G</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">A15 LTE</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A17 5G</span><span class="date-pill scheduled">31 de maio a junho</span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A17 LTE</span><span class="date-pill scheduled">31 de maio a junho</span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A16 5G</span><span class="date-pill scheduled">31 de maio a junho</span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A16 LTE</span><span class="date-pill scheduled">31 de maio a junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A15 5G</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A15 LTE</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -516,22 +539,23 @@
             <div class="card-glow glow-a"></div>
             <div class="category">
                 <h2>Linha A0x</h2>
-                <div class="device"><span class="name">A07 5G</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">A07 4G</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">A06 5G</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">A06 4G</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A07 5G</span><span class="date-pill"></span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A07 4G</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A06 5G</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A06 4G</span><span class="date-pill"></span></div><span class="dot red"></span></div>
             </div>
         </div>
 
+        <!-- LINHA M -->
         <div class="card-wrapper">
             <div class="card-glow glow-m"></div>
             <div class="category">
                 <h2>Linha M5x</h2>
-                <div class="device"><span class="name">M56</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">M55s</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">M55</span><span class="dot yellow"></span></div>
-                <div class="device"><span class="name">M54</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">M53</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M56</span><span class="date-pill"></span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M55s</span><span class="date-pill scheduled">Maio a junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M55</span><span class="date-pill scheduled">Maio a junho</span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M54</span><span class="date-pill scheduled">Maio a junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M53</span><span class="date-pill"></span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -539,9 +563,9 @@
             <div class="card-glow glow-m"></div>
             <div class="category">
                 <h2>Linha M3x</h2>
-                <div class="device"><span class="name">M36</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">M35</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">M34</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M36</span><span class="date-pill scheduled">Maio a junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M35</span><span class="date-pill scheduled">Maio a junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M34</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -549,9 +573,9 @@
             <div class="card-glow glow-m"></div>
             <div class="category">
                 <h2>Linha M1x</h2>
-                <div class="device"><span class="name">M17</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">M16</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">M15</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M17</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M16</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M15</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -559,8 +583,8 @@
             <div class="card-glow glow-m"></div>
             <div class="category">
                 <h2>Linha M0x</h2>
-                <div class="device"><span class="name">M07</span><span class="dot red"></span></div>
-                <div class="device"><span class="name">M06</span><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M07</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M06</span><span class="date-pill"></span></div><span class="dot red"></span></div>
             </div>
         </div>
 
@@ -609,9 +633,6 @@
             noResults.style.display = (!globalMatch && term !== '') ? 'block' : 'none';
         });
 
-        // -----------------------------------------------------
-        // Lógica do Brilho nos Cards (Ativa no clique/toque, desativa no scroll/clique fora)
-        // -----------------------------------------------------
         const cards = document.querySelectorAll('.card-wrapper');
 
         function removeAllGlows() {
