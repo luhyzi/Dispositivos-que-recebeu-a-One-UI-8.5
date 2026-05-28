@@ -132,6 +132,23 @@
             text-align: left;
         }
 
+        /* NOVA TAG DE DATA NO TOPO */
+        .update-date-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #60a5fa;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 6px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
         h1 {
             font-size: 2.2rem;
             margin-bottom: 25px;
@@ -328,6 +345,11 @@
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
+        .date-pill.tbd {
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         .date-pill.available {
             color: #4ade80;
             background: rgba(34, 197, 94, 0.1);
@@ -408,6 +430,11 @@
     </div>
 
     <header>
+        <div class="update-date-top">
+            <i data-lucide="calendar-clock" style="width: 14px; height: 14px;"></i>
+            Atualizado: 28 de maio
+        </div>
+        
         <h1>Distribuição da One UI 8.5</h1>
 
         <div class="legend">
@@ -417,7 +444,6 @@
         </div>
 
         <div class="status-badges">
-            <div class="badge">Atualizado: 28 de maio</div>
             <div class="badge badge-live">
                 <span class="pulse-dot"></span> Ao vivo
             </div>
@@ -427,7 +453,6 @@
     </header>
 
     <main id="device-container">
-        <!-- LINHA S -->
         <div class="card-wrapper">
             <div class="card-glow glow-s"></div>
             <div class="category">
@@ -480,7 +505,6 @@
             </div>
         </div>
 
-        <!-- LINHA A -->
         <div class="card-wrapper">
             <div class="card-glow glow-a"></div>
             <div class="category">
@@ -540,13 +564,12 @@
             <div class="category">
                 <h2>Linha A0x</h2>
                 <div class="device"><div class="device-group"><span class="name">A07 5G</span><span class="date-pill"></span></div><span class="dot yellow"></span></div>
-                <div class="device"><div class="device-group"><span class="name">A07 4G</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A07 LTE</span><span class="date-pill"></span></div><span class="dot yellow"></span></div>
                 <div class="device"><div class="device-group"><span class="name">A06 5G</span><span class="date-pill"></span></div><span class="dot red"></span></div>
-                <div class="device"><div class="device-group"><span class="name">A06 4G</span><span class="date-pill"></span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A06 LTE</span><span class="date-pill"></span></div><span class="dot red"></span></div>
             </div>
         </div>
 
-        <!-- LINHA M -->
         <div class="card-wrapper">
             <div class="card-glow glow-m"></div>
             <div class="category">
