@@ -132,22 +132,6 @@
             text-align: left;
         }
 
-        .update-date-top {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #60a5fa;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            background: rgba(59, 130, 246, 0.1);
-            padding: 6px 14px;
-            border-radius: 50px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
         h1 {
             font-size: 2.2rem;
             margin-bottom: 25px;
@@ -429,11 +413,6 @@
     </div>
 
     <header>
-        <div class="update-date-top">
-            <i data-lucide="calendar-clock" style="width: 14px; height: 14px;"></i>
-            Atualizado: 28 de maio
-        </div>
-        
         <h1>Distribuição da One UI 8.5</h1>
 
         <div class="legend">
@@ -443,6 +422,7 @@
         </div>
 
         <div class="status-badges">
+            <div class="badge" id="auto-date">Atualizado: ...</div>
             <div class="badge badge-live">
                 <span class="pulse-dot"></span> Ao vivo
             </div>
@@ -680,6 +660,18 @@
         document.addEventListener('click', () => {
             removeAllGlows();
         });
+
+        // -----------------------------------------------------
+        // DATA AUTOMÁTICA
+        // -----------------------------------------------------
+        const dateBadge = document.getElementById('auto-date');
+        const today = new Date();
+        const formatter = new Intl.DateTimeFormat('pt-BR', { 
+            day: 'numeric', 
+            month: 'long' 
+        });
+        
+        dateBadge.innerHTML = `Atualizado: ${formatter.format(today)}`;
 
     </script>
 </body>
