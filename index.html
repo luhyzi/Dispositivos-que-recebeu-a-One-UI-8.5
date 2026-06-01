@@ -175,6 +175,7 @@
 
         .status-badges {
             display: flex;
+            align-items: center;
             gap: 12px;
             margin-bottom: 15px;
             flex-wrap: wrap;
@@ -215,6 +216,55 @@
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        /* NOVA PÍLULA DO TELEGRAM COM BRILHO GRADIENTE */
+        .telegram-pill {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(36, 161, 222, 0.15); /* Fundo base suave azul */
+            border: 1px solid rgba(36, 161, 222, 0.4);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #38bdf8;
+            text-decoration: none;
+            z-index: 1; 
+            transition: all 0.3s ease;
+        }
+
+        /* O brilho gradiente animado atrás da pílula */
+        .telegram-pill::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #3b82f6, #0ea5e9, #a855f7, #3b82f6);
+            background-size: 300% 100%;
+            filter: blur(8px);
+            opacity: 0.6;
+            z-index: -1;
+            animation: telegram-glow 4s linear infinite;
+            pointer-events: none;
+        }
+
+        .telegram-pill:hover {
+            transform: translateY(-2px);
+            background: rgba(36, 161, 222, 0.25);
+        }
+
+        .telegram-pill:hover::before {
+            opacity: 1; /* Brilha mais forte no hover */
+            filter: blur(10px);
+        }
+
+        @keyframes telegram-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .subtitle {
@@ -426,6 +476,13 @@
             <div class="badge badge-live">
                 <span class="pulse-dot"></span> Ao vivo
             </div>
+            
+            <a href="https://t.me/samsungapksnew" target="_blank" class="telegram-pill">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-1.442 4.195c.205.34.604.304.81.109l2.254-2.189 4.697 3.465c.865.478 1.487.23 1.704-.79l3.082-14.51c.32-1.298-.485-1.89-1.281-1.247z"/>
+                </svg>
+                Samsung Apk News
+            </a>
         </div>
 
         <p class="subtitle">Fonte: Samsung Apks New | Válido para versões LTE e 5G</p>
@@ -565,7 +622,7 @@
             <div class="card-glow glow-m"></div>
             <div class="category">
                 <h2>Linha M3x</h2>
-                <div class="device"><div class="device-group"><span class="name">M36</span><span class="date-pill scheduled">Maio a junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">M36</span><span class="date-pill scheduled">Maio a junho</span></div><span class="dot yellow"></span></div>
                 <div class="device"><div class="device-group"><span class="name">M35</span><span class="date-pill scheduled">Maio a junho</span></div><span class="dot yellow"></span></div>
                 <div class="device"><div class="device-group"><span class="name">M34</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
             </div>
@@ -591,7 +648,7 @@
         </div>
 
         <div class="no-results" id="no-results">
-            Nenhum dispositivo encontrado com esse nome.
+            Nenhum dispositivo encontrado com esse nome. 📱
         </div>
     </main>
 
