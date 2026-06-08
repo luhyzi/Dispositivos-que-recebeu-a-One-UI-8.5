@@ -376,6 +376,12 @@
             background: rgba(59, 130, 246, 0.1);
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
+        
+        .date-pill.distributing {
+            color: #eab308;
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
 
         .date-pill.tbd {
             color: var(--text-muted);
@@ -398,8 +404,8 @@
             display: flex;
             align-items: center;
             background: rgba(20, 20, 25, 0.5);
-            backdrop-filter: blur(8px); /* DESFOQUE REDUZIDO PARA 8px */
-            -webkit-backdrop-filter: blur(8px); /* DESFOQUE REDUZIDO PARA 8px */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 30px;
             padding: 4px 20px;
@@ -471,7 +477,7 @@
         </div>
 
         <div class="status-badges">
-            <div class="badge">Atualizado: 2 de junho</div>
+            <div class="badge">Atualizado: 8 de junho</div>
             <div class="badge badge-live">
                 <span class="pulse-dot"></span> Ao vivo
             </div>
@@ -565,7 +571,7 @@
                 <h2>Linha A3x</h2>
                 <div class="device"><div class="device-group"><span class="name">A36</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
                 <div class="device"><div class="device-group"><span class="name">A35</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
-                <div class="device"><div class="device-group"><span class="name">A34</span><span class="date-pill scheduled">30 de maio</span></div><span class="dot yellow"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A34</span><span class="date-pill distributing">Em distribuição</span></div><span class="dot yellow"></span></div>
                 <div class="device"><div class="device-group"><span class="name">A33</span><span class="date-pill tbd">Sem previsão</span></div><span class="dot red"></span></div>
             </div>
         </div>
@@ -589,7 +595,7 @@
                 <div class="device"><div class="device-group"><span class="name">A17 LTE</span><span class="date-pill available">Atualizado</span></div><span class="dot green"></span></div>
                 <div class="device"><div class="device-group"><span class="name">A16 5G</span><span class="date-pill scheduled">31 de maio a junho</span></div><span class="dot yellow"></span></div>
                 <div class="device"><div class="device-group"><span class="name">A16 LTE</span><span class="date-pill scheduled">31 de maio a junho</span></div><span class="dot yellow"></span></div>
-                <div class="device"><div class="device-group"><span class="name">A15 5G</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
+                <div class="device"><div class="device-group"><span class="name">A15 5G</span><span class="date-pill distributing">Em distribuição</span></div><span class="dot yellow"></span></div>
                 <div class="device"><div class="device-group"><span class="name">A15 LTE</span><span class="date-pill scheduled">Junho</span></div><span class="dot red"></span></div>
             </div>
         </div>
