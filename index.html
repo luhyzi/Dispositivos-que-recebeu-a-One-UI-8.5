@@ -9,7 +9,10 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         :root {
-            --bg-gradient: linear-gradient(135deg, #0f0f11 0%, #1a1a24 100%);
+            --bg-color-1: #0f0f11;
+            --bg-color-2: #1a1a24;
+            --bg-gradient: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 100%);
+            
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --green: #22c55e;
@@ -30,14 +33,23 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
         }
 
+        html, body {
+            background-color: var(--bg-color-1);
+            transition: background-color 1.5s ease;
+        }
+
         body {
-            background: var(--bg-gradient);
-            background-attachment: fixed;
             color: var(--text-main);
             padding-bottom: 140px;
             -webkit-font-smoothing: antialiased;
-            transition: background 0.4s ease;
             min-height: 100vh;
+        }
+
+        /* FUNDO DO SITE COM A ANIMAÇÃO LENTA (SLOW) */
+        .site-background {
+            position: fixed; inset: 0; z-index: -2;
+            background: var(--bg-gradient); 
+            transition: background 1.5s ease, opacity 1.5s ease;
         }
 
         /* O FADE-OUT PRETO FIXO NO TOPO */
@@ -46,6 +58,15 @@
             background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 35%, transparent 100%);
             z-index: 95; pointer-events: none;
         }
+
+        /* CAMADA DE DESFOQUE GLOBAL QUANDO A PESQUISA ESTÁ ABERTA */
+        .search-overlay {
+            position: fixed; inset: 0; z-index: 88;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        body.search-mode .search-overlay { opacity: 1; pointer-events: auto; }
+        body.search-mode main { position: relative; z-index: 89; }
 
         .gradient-blur { position: fixed; z-index: 90; inset: 0 0 auto 0; height: 130px; pointer-events: none; }
         .gradient-blur > div, .gradient-blur::before, .gradient-blur::after { position: absolute; inset: 0; }
@@ -58,7 +79,7 @@
         .gradient-blur > div:nth-of-type(6) { z-index: 7; backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); mask: linear-gradient(to top, rgba(0, 0, 0, 0) 75%, black 87.5%, black 100%); -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 0) 75%, black 87.5%, black 100%); }
         .gradient-blur::after { z-index: 8; backdrop-filter: blur(64px); -webkit-backdrop-filter: blur(64px); mask: linear-gradient(to top, rgba(0, 0, 0, 0) 87.5%, black 100%); -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 0) 87.5%, black 100%); }
 
-        header { max-width: 900px; margin: 0 auto; padding: 110px 20px 20px; text-align: left; position: relative; z-index: 85; }
+        header { max-width: 900px; margin: 0 auto; padding: 110px 20px 20px; text-align: left; position: relative; z-index: 85; transition: opacity 0.3s; }
         h1 { font-size: 2.2rem; margin-bottom: 25px; font-weight: 700; color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
 
         .legend { display: flex; flex-direction: column; gap: 15px; width: fit-content; margin-bottom: 20px; background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); padding: 20px 30px; border-radius: 16px; box-shadow: var(--glass-shadow); transition: all 0.3s; }
@@ -83,7 +104,6 @@
         .header-meta-row { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; gap: 15px; flex-wrap: wrap; }
         .subtitle { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
 
-        /* Filtro */
         .filter-wrapper { position: relative; margin-left: auto; }
         .filter-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; cursor: pointer; user-select: none; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 50px; font-size: 0.85rem; font-weight: 600; color: var(--text-main); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .filter-pill:all { outline: none; }
@@ -97,31 +117,43 @@
         .popup-item:hover { background: rgba(255, 255, 255, 0.08); }
         .popup-item.active { background: rgba(255, 255, 255, 0.12); font-weight: 600; }
 
+        /* GRID PRINCIPAL DOS APARELHOS */
         main { max-width: 900px; margin: 0 auto; padding: 0 20px 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+
+        /* =========================================
+           O NOVO MODO DE PESQUISA (SPOTLIGHT)
+           Aqui é onde a mágica acontece. Ele centraliza
+           os resultados na área vazia da tela!
+           ========================================= */
+        body.search-mode header { display: none !important; }
+        body.search-mode main {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            padding-top: 100px !important; /* Joga os cards pra área que você circulou */
+            padding-bottom: 250px !important;
+            min-height: 100vh;
+        }
+        body.search-mode .card-wrapper {
+            width: 100% !important;
+            max-width: 450px !important;
+        }
 
         .card-wrapper { position: relative; display: flex; flex-direction: column; height: 100%; cursor: pointer; transition: transform 0.2s; }
         .card-wrapper:active { transform: scale(0.98); }
         
-        /* ---------------------------------------------------
-           GLOW DOS CARDS COM ANIMAÇÃO "ENTRANDO" (ELÁSTICO)
-           --------------------------------------------------- */
+        /* GLOW DOS CARDS COM ANIMAÇÃO ENTRANDO (ELÁSTICO) */
         .card-glow { 
-            position: absolute; top: 50%; left: 50%; 
-            width: 105%; height: 105%; /* Levemente maior que o card para criar a aura */
+            position: absolute; top: 50%; left: 50%; width: 105%; height: 105%;
             background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); 
-            filter: blur(20px); border-radius: 16px; z-index: 0; 
-            opacity: 0; 
-            transform: translate(-50%, -50%) scale(0.8); /* Inicia menor, lá atrás */
-            transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animação elástica */
+            filter: blur(20px); border-radius: 16px; z-index: 0; opacity: 0; 
+            transform: translate(-50%, -50%) scale(0.7); 
+            transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             pointer-events: none;
         }
-        .card-wrapper.active-glow .card-glow { 
-            opacity: 1; 
-            transform: translate(-50%, -50%) scale(1); /* Expande para o tamanho total suavemente */
-        }
-        .card-wrapper#favorites-card .card-glow { 
-            background: radial-gradient(circle, rgba(234, 179, 8, 0.15) 0%, transparent 70%); 
-        }
+        .card-wrapper.active-glow .card-glow { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .card-wrapper#favorites-card .card-glow { background: radial-gradient(circle, rgba(234, 179, 8, 0.2) 0%, transparent 70%); }
 
         .category { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; position: relative; z-index: 1; height: 100%; transition: all 0.3s; }
         .card-wrapper.active-glow .category { border-color: rgba(255,255,255,0.25); }
@@ -137,13 +169,13 @@
         .date-pill.tbd { color: var(--text-muted); background: rgba(255, 255, 255, 0.05); }
         .date-pill.available { color: #4ade80; background: rgba(34, 197, 94, 0.1); }
 
-        /* SISTEMA DE FAVORITOS E ANIMAÇÃO */
-        @keyframes popFavCard {
-            0% { opacity: 0; transform: translateY(-20px) scale(0.95); }
-            60% { opacity: 1; transform: translateY(5px) scale(1.02); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
+        /* SISTEMA DE FAVORITOS E ANIMAÇÃO DO CORAÇÃO */
+        @keyframes popFavCard { 0% { opacity: 0; transform: translateY(-20px) scale(0.95); } 60% { opacity: 1; transform: translateY(5px) scale(1.02); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
         .animate-fav-card { animation: popFavCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        
+        /* ANIMAÇÃO DOS CARDS NO MODO DE BUSCA */
+        @keyframes popResult { 0% { opacity: 0; transform: translateY(20px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        body.search-mode .card-wrapper.match { animation: popResult 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
         .device-actions { display: flex; align-items: center; gap: 12px; pointer-events: auto; }
         .fav-btn { background: transparent; border: none; cursor: pointer; padding: 4px; margin: -4px; color: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s; outline: none; -webkit-tap-highlight-color: transparent; }
@@ -153,51 +185,70 @@
         .fav-btn.active svg { fill: #ef4444; stroke: #ef4444; animation: heartPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
 
-        /* NAVEGAÇÃO INFERIOR */
-        .apple-pill-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: inline-flex; padding: 5px; border-radius: 40px; z-index: 100; background: var(--apple-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); transition: all 0.3s; }
-        .apple-nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 80px; height: 60px; border-radius: 32px; color: var(--apple-inactive-text); cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); -webkit-tap-highlight-color: transparent; user-select: none; }
+        /* =========================================
+           NAVEGAÇÃO INFERIOR E SISTEMA DE ESTILOS
+           ========================================= */
+        .apple-pill-nav { 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
+            display: inline-flex; padding: 5px; border-radius: 40px; z-index: 100; 
+            background: var(--apple-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); 
+            /* Transição elástica de toda a barra de navegação */
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+        .apple-nav-item { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; 
+            width: 80px; height: 60px; border-radius: 32px; color: var(--apple-inactive-text); cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); -webkit-tap-highlight-color: transparent; user-select: none; 
+        }
         .apple-nav-item.active { background: var(--apple-active-bg); color: #ffffff; }
         .apple-nav-item svg { width: 22px; height: 22px; transition: transform 0.2s; }
         .apple-nav-item:active svg { transform: scale(0.9); }
         .apple-nav-item span { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.3px; }
 
-        /* ---------------------------------------------------
-           BARRA DE PESQUISA COM EFEITO GLOW AZUL AO CLICAR
-           --------------------------------------------------- */
+        /* Estilo da Barra de Tarefas (Opaca com Blur) - IGUALZINHA A PÍLULA */
+        body.nav-taskbar .apple-pill-nav {
+            bottom: 0; left: 0; width: 100%; transform: translateX(0);
+            border-radius: 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--apple-bg); /* Exatamente a mesma cor */
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); /* Exatamente o mesmo blur */
+            justify-content: space-evenly;
+            padding: 5px 0 calc(5px + env(safe-area-inset-bottom));
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.4);
+        }
+        body.nav-taskbar .apple-nav-item { border-radius: 12px; height: 55px; }
+
+        /* =========================================
+           BARRA DE PESQUISA COM GLOW BRANCO SUAVE
+           ========================================= */
         .ios-search-bar { 
             position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%) translateY(20px); 
-            width: calc(100% - 40px); max-width: 400px; padding: 14px 20px; display: flex; align-items: center; z-index: 99; 
+            width: calc(100% - 40px); max-width: 400px; padding: 14px 20px; display: flex; align-items: center; z-index: 102; 
             background: rgba(44, 44, 46, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
             border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            opacity: 0; pointer-events: none; 
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+            opacity: 0; pointer-events: none; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); 
         }
         .ios-search-bar.active { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
         
-        /* O efeito de brilho mágico quando toca no campo de texto */
-        .ios-search-bar:focus-within {
-            border-color: rgba(59, 130, 246, 0.6);
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.35), 0 10px 30px rgba(0,0,0,0.5);
+        /* Glow Branco Suave aparecendo ao clicar na barra */
+        .ios-search-bar:focus-within { 
+            border-color: rgba(255, 255, 255, 0.7); 
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.25), 0 10px 40px rgba(0,0,0,0.6); 
+            transform: translateX(-50%) translateY(-10px); /* Dá uma leve levantadinha */
         }
-
-        .ios-search-bar svg { color: var(--apple-inactive-text); width: 20px; height: 20px; transition: color 0.3s;}
-        .ios-search-bar:focus-within svg { color: #3b82f6; } /* Deixa o ícone de lupa azul também */
-        
+        .ios-search-bar svg { color: var(--apple-inactive-text); width: 20px; height: 20px; transition: color 0.4s;}
+        .ios-search-bar:focus-within svg { color: #ffffff; } 
         .ios-search-bar input { flex: 1; background: transparent; border: none; color: white; font-size: 1rem; outline: none; margin-left: 12px; }
         .ios-search-bar input::placeholder { color: var(--apple-inactive-text); }
 
         /* NOTIFICAÇÃO FLUTUANTE ESTILO MOBILE NATIVO */
         .install-prompt {
             position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150%);
-            width: calc(100% - 24px); max-width: 420px;
-            background: rgba(30, 30, 32, 0.85);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px; padding: 12px 16px;
-            display: flex; align-items: center; gap: 14px;
+            width: calc(100% - 24px); max-width: 420px; background: rgba(30, 30, 32, 0.85);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px; padding: 12px 16px; display: flex; align-items: center; gap: 14px;
             z-index: 1000; box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
-            opacity: 0; pointer-events: none;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+            opacity: 0; pointer-events: none; transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
         }
         .install-prompt.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
         .install-icon { width: 42px; height: 42px; background: linear-gradient(135deg, #3b82f6, #a855f7); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
@@ -219,17 +270,47 @@
         .settings-container { background: rgba(26, 26, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 10px 20px; box-shadow: var(--glass-shadow); transition: all 0.3s;}
         .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .setting-item:last-child { border-bottom: none; }
-        .setting-item.column { flex-direction: column; align-items: flex-start; gap: 15px; }
+        .setting-item.column { flex-direction: column; align-items: flex-start; gap: 15px; width: 100%; }
         .setting-info { display: flex; flex-direction: column; gap: 6px; padding-right: 15px; }
         .setting-info label { font-weight: 600; color: #ffffff; font-size: 1rem; }
         .setting-info span { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
-        .color-options { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 5px; }
+        
+        /* CORES ATUALIZADAS E ANIMADAS */
+        .color-options { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 5px; text-align: center; justify-content: flex-start; }
+        .color-option-wrapper { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 45px; }
+        .color-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
         .color-dot { width: 36px; height: 36px; border-radius: 50%; background-color: var(--dot-color); cursor: pointer; border: 2px solid rgba(255,255,255,0.1); transition: transform 0.2s, border-color 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .color-dot:hover { transform: scale(1.1); }
         .color-dot.active { border-color: #ffffff; transform: scale(1.15); box-shadow: 0 0 15px var(--dot-color); }
-        .reset-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); transition: all 0.2s; margin-top: 10px; }
-        .reset-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
-        .reset-btn svg { width: 16px; height: 16px; }
+        
+        /* PRÉ-VISUALIZAÇÃO EM DESENHO (CELULARES) */
+        .nav-mockups-container { display: flex; justify-content: center; gap: 30px; width: 100%; margin-top: 10px; }
+        .mockup-item { display: flex; flex-direction: column; align-items: center; gap: 12px; cursor: pointer; }
+        
+        .mockup-phone { 
+            width: 80px; height: 140px; 
+            border: 3px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 18px; position: relative; 
+            background: rgba(0, 0, 0, 0.2); transition: all 0.3s ease;
+            display: flex; align-items: flex-end; justify-content: center; overflow: hidden;
+        }
+        .mockup-item:hover .mockup-phone { border-color: rgba(255, 255, 255, 0.3); }
+        .mockup-item.active .mockup-phone { border-color: #3b82f6; background: rgba(59, 130, 246, 0.05); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2); }
+        
+        .m-pill { width: 45px; height: 14px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; margin-bottom: 12px; transition: 0.3s; }
+        .m-taskbar { width: 100%; height: 22px; background: rgba(255, 255, 255, 0.2); transition: 0.3s; border-radius: 0 0 10px 10px; }
+        
+        .mockup-item.active .m-pill, .mockup-item.active .m-taskbar { background: #3b82f6; }
+        
+        .mockup-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); transition: 0.3s; }
+        .mockup-item.active .mockup-label { color: #fff; }
+
+        /* OUTROS BOTÕES E SWITCHES */
+        .action-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 8px 16px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .action-btn:hover { background: rgba(255,255,255,0.15); }
+        .action-btn:active { transform: scale(0.95); }
+        .action-btn.red-btn { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); color: #ef4444; margin-top: 10px; width: 100%; padding: 12px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center;}
+        
         .toggle-switch { position: relative; display: inline-block; width: 52px; height: 30px; flex-shrink: 0; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.15); transition: .3s; border-radius: 34px; border: 1px solid rgba(255,255,255,0.05); }
@@ -243,6 +324,7 @@
         body.solid-cards .legend { background: #1c1c1e; backdrop-filter: none; border-color: #2c2c2e; }
 
         body.no-blur .gradient-blur { display: none; }
+        body.no-blur .search-overlay { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(0,0,0,0.85) !important; }
         body.no-blur .legend, body.no-blur .category, body.no-blur .settings-container, body.no-blur .ios-search-bar, body.no-blur .filter-popup { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background-color: #1a1a20 !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border-color: transparent;}
         body.no-blur .apple-pill-nav { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background-color: #222225 !important; }
         body.no-blur .badge, body.no-blur .filter-pill, body.no-blur .reset-btn { backdrop-filter: none !important; background-color: #2c2c31 !important; border-color: transparent !important; }
@@ -252,6 +334,13 @@
     </style>
 </head>
 <body>
+
+    <!-- DUAS CAMADAS DE FUNDO PARA O CROSSFADE LENTO DO TEMA (1.5s) -->
+    <div id="bg-layer-1" class="site-background active"></div>
+    <div id="bg-layer-2" class="site-background"></div>
+
+    <!-- CAMADA DE DESFOQUE QUANDO A PESQUISA ABRE -->
+    <div id="search-overlay" class="search-overlay"></div>
 
     <!-- NOTIFICAÇÃO FLUTUANTE ESTILO MOBILE NATIVO -->
     <div class="install-prompt" id="install-prompt">
@@ -268,6 +357,7 @@
         </div>
     </div>
 
+    <!-- O FADE-OUT PRETO DO TOPO -->
     <div class="top-gradient-dark"></div>
     <div class="gradient-blur">
         <div></div><div></div><div></div><div></div><div></div><div></div>
@@ -284,7 +374,7 @@
             </div>
 
             <div class="status-badges">
-                <div class="badge">Atualizado: 16 de junho</div>
+                <div class="badge">Atualizado: 17 de junho</div>
                 <div class="badge badge-live">
                     <span class="pulse-dot"></span> Ao vivo
                 </div>
@@ -317,18 +407,16 @@
         </header>
 
         <main id="device-container">
-            <!-- CARD DE FAVORITOS (Inicia Oculto com Animação) -->
+            <!-- CARD DE FAVORITOS -->
             <div class="card-wrapper" id="favorites-card" style="display: none; grid-column: 1 / -1;">
                 <div class="card-glow"></div>
                 <div class="category">
                     <h2><i data-lucide="star" style="color: #eab308; fill: #eab308; width: 20px; height: 20px;"></i> Dispositivos Favoritos</h2>
-                    <div id="favorites-list">
-                        <!-- Dispositivos injetados via JS -->
-                    </div>
+                    <div id="favorites-list"></div>
                 </div>
             </div>
 
-            <!-- LINHA S -->
+            <!-- LINHAS -->
             <div class="card-wrapper"><div class="card-glow"></div><div class="category"><h2>Linha S25</h2>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">S25</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">S25+</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
@@ -361,7 +449,6 @@
                 <div class="device" data-status="nao-recebeu"><div class="device-group"><span class="name">S21 FE</span><span class="date-pill scheduled">Junho</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot red"></span></div></div>
             </div></div>
 
-            <!-- LINHA A -->
             <div class="card-wrapper"><div class="card-glow"></div><div class="category"><h2>Linha A7x</h2>
                 <div class="device" data-status="nao-recebeu"><div class="device-group"><span class="name">A73</span><span class="date-pill scheduled">Junho</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot red"></span></div></div>
             </div></div>
@@ -390,7 +477,7 @@
             <div class="card-wrapper"><div class="card-glow"></div><div class="category"><h2>Linha A1x</h2>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A17 5G</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A17 LTE</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
-                <div class="device" data-status="distribuicao"><div class="device-group"><span class="name">A16 5G</span><span class="date-pill scheduled">31 de maio a junho</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot yellow"></span></div></div>
+                <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A16 5G</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="distribuicao"><div class="device-group"><span class="name">A16 LTE</span><span class="date-pill scheduled">31 de maio a junho</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot yellow"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A15 5G</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="distribuicao"><div class="device-group"><span class="name">A15 LTE</span><span class="date-pill distributing">Em distribuição</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot yellow"></span></div></div>
@@ -403,7 +490,6 @@
                 <div class="device" data-status="distribuicao"><div class="device-group"><span class="name">A06 LTE</span><span class="date-pill tbd">Sem previsão</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot yellow"></span></div></div>
             </div></div>
 
-            <!-- LINHA M -->
             <div class="card-wrapper"><div class="card-glow"></div><div class="category"><h2>Linha M5x</h2>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">M56</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">M55s</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
@@ -444,29 +530,55 @@
 
         <div class="settings-container">
             <div class="setting-item column">
-                <div class="setting-info">
-                    <label>Tema do Fundo</label>
-                    <span>Personalize a cor de fundo do site. A interface se manterá escura.</span>
+                <div class="setting-info" style="width: 100%;">
+                    <label>Tema de Fundo</label>
+                    <span>Transição lenta de cores. O Modo OLED traz máxima economia de bateria.</span>
                 </div>
                 
                 <div class="color-options">
-                    <div class="color-dot" style="--dot-color: #1a1a24" data-theme="default" title="Fábrica (Escuro Padrão)"></div>
-                    <div class="color-dot" style="--dot-color: #0b132b" data-theme="darkblue" title="Azul Profundo"></div>
-                    <div class="color-dot" style="--dot-color: #061a14" data-theme="darkgreen" title="Verde Musgo"></div>
-                    <div class="color-dot" style="--dot-color: #1a0b2e" data-theme="darkpurple" title="Roxo Noturno"></div>
-                    <div class="color-dot" style="--dot-color: #2b0c0c" data-theme="darkred" title="Carmesim"></div>
-                    <div class="color-dot" style="--dot-color: #062329" data-theme="darkteal" title="Oceano Escuro"></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #1a1a24" data-theme="default"></div><span class="color-label">Padrão</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #000000" data-theme="oled"></div><span class="color-label">OLED</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #020617" data-theme="midnight"></div><span class="color-label">Noite</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #0b132b" data-theme="darkblue"></div><span class="color-label">Azul</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #061a14" data-theme="darkgreen"></div><span class="color-label">Verde</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #1a0b2e" data-theme="darkpurple"></div><span class="color-label">Roxo</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #2b0c0c" data-theme="darkred"></div><span class="color-label">Rubi</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #4a1528" data-theme="darkpink"></div><span class="color-label">Vinho</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #2b200b" data-theme="darkgold"></div><span class="color-label">Ouro</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #331400" data-theme="darkorange"></div><span class="color-label">Bronze</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #062329" data-theme="darkteal"></div><span class="color-label">Oceano</span></div>
+                    <div class="color-option-wrapper"><div class="color-dot" style="--dot-color: #1e222a" data-theme="darkslate"></div><span class="color-label">Chumbo</span></div>
                 </div>
+            </div>
 
-                <button class="reset-btn" id="reset-theme-btn">
-                    <i data-lucide="rotate-ccw"></i> Restaurar de Fábrica
-                </button>
+            <!-- PREVIEW DE CELULAR - ESTILO DA BARRA DE NAVEGAÇÃO -->
+            <div class="setting-item column">
+                <div class="setting-info" style="width: 100%;">
+                    <label>Estilo da Navegação</label>
+                    <span>Toque no desenho para escolher sua barra inferior.</span>
+                </div>
+                
+                <div class="nav-mockups-container">
+                    <div class="mockup-item active" data-nav="pill">
+                        <div class="mockup-phone">
+                            <div class="m-pill"></div>
+                        </div>
+                        <span class="mockup-label">Pílula</span>
+                    </div>
+
+                    <div class="mockup-item" data-nav="taskbar">
+                        <div class="mockup-phone">
+                            <div class="m-taskbar"></div>
+                        </div>
+                        <span class="mockup-label">Opaca</span>
+                    </div>
+                </div>
             </div>
 
             <div class="setting-item">
                 <div class="setting-info">
                     <label>Cartões Sólidos</label>
-                    <span>Desliga a transparência e deixa os cartões com visual sólido opaco.</span>
+                    <span>Desliga a transparência dos cartões.</span>
                 </div>
                 <label class="toggle-switch">
                     <input type="checkbox" id="solid-cards-toggle">
@@ -476,8 +588,8 @@
 
             <div class="setting-item">
                 <div class="setting-info">
-                    <label>Desativar Desfoque Topo/Rodapé</label>
-                    <span>Aumenta muito o FPS e economiza bateria em celulares fracos.</span>
+                    <label>Desativar Desfoque</label>
+                    <span>Aumenta muito o FPS em celulares fracos.</span>
                 </div>
                 <label class="toggle-switch">
                     <input type="checkbox" id="blur-toggle">
@@ -487,17 +599,25 @@
 
             <div class="setting-item">
                 <div class="setting-info">
-                    <label>Ocultar Aparelhos Pendentes</label>
-                    <span>Mostra apenas os aparelhos que já atualizaram ou estão em distribuição.</span>
+                    <label>Ocultar Pendentes</label>
+                    <span>Mostra apenas quem já atualizou/em distribuição.</span>
                 </div>
                 <label class="toggle-switch">
                     <input type="checkbox" id="hide-pending-toggle">
                     <span class="slider"></span>
                 </label>
             </div>
+
+            <div class="setting-item column" style="border:none; margin-top: 10px;">
+                <button class="action-btn red-btn" id="reset-all-btn">
+                    <i data-lucide="trash-2" style="width:18px;height:18px;margin-right:6px;vertical-align:middle;"></i>
+                    Restaurar tudo (Fábrica)
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- BARRA DE PESQUISA COM GLOW -->
     <div class="ios-search-bar" id="ios-search-bar">
         <i data-lucide="search"></i>
         <input type="text" id="search-input" placeholder="Buscar dispositivo..." autocomplete="off">
@@ -521,148 +641,87 @@
     <script>
         lucide.createIcons();
 
-        // ----------------------------------------------------
-        // LÓGICA DE INSTALAÇÃO (PWA NOTIFICATION NATIVA)
-        // ----------------------------------------------------
         const installPrompt = document.getElementById('install-prompt');
         const btnAdd = document.getElementById('install-btn-add');
         const btnClose = document.getElementById('install-btn-close');
-
-        if (!localStorage.getItem('hideInstallPrompt')) {
-            setTimeout(() => {
-                installPrompt.classList.add('show');
-            }, 3000);
-        }
-
-        btnClose.addEventListener('click', () => {
-            installPrompt.classList.remove('show');
-            localStorage.setItem('hideInstallPrompt', 'true');
-        });
-
-        btnAdd.addEventListener('click', () => {
-            alert('Para adicionar, clique nos 3 pontinhos do navegador e selecione "Adicionar à Tela Inicial".');
-            installPrompt.classList.remove('show');
-            localStorage.setItem('hideInstallPrompt', 'true');
-        });
-
-        // ----------------------------------------------------
-        // SISTEMA DE FAVORITOS E ANIMAÇÃO DO CARD
-        // ----------------------------------------------------
-        function renderFavorites() {
-            const favList = document.getElementById('favorites-list');
-            const favCard = document.getElementById('favorites-card');
-            let favorites = JSON.parse(localStorage.getItem('deviceFavorites')) || [];
-
-            favList.innerHTML = ''; 
-
-            if (favorites.length === 0) {
-                favCard.style.display = 'none';
-                favCard.classList.remove('animate-fav-card');
-            } else {
-                if(favCard.style.display === 'none') {
-                    favCard.style.display = 'flex';
-                    void favCard.offsetWidth; 
-                    favCard.classList.add('animate-fav-card');
-                }
-                
-                const allOriginalDevices = Array.from(document.querySelectorAll('.card-wrapper:not(#favorites-card) .device'));
-
-                favorites.forEach(favName => {
-                    const original = allOriginalDevices.find(el => el.querySelector('.name').innerText.trim() === favName);
-                    if (original) {
-                        const clone = original.cloneNode(true);
-                        favList.appendChild(clone);
-                    }
-                });
-            }
-        }
-
-        function updateHeartIcons() {
-            let favorites = JSON.parse(localStorage.getItem('deviceFavorites')) || [];
-            document.querySelectorAll('.device').forEach(deviceEl => {
-                const name = deviceEl.querySelector('.name').innerText.trim();
-                const favBtn = deviceEl.querySelector('.fav-btn');
-                
-                if(favBtn) {
-                    if (favorites.includes(name)) {
-                        favBtn.classList.add('active');
-                    } else {
-                        favBtn.classList.remove('active');
-                    }
-                }
-            });
-        }
-
-        function toggleFavorite(deviceName) {
-            let favorites = JSON.parse(localStorage.getItem('deviceFavorites')) || [];
-            if (favorites.includes(deviceName)) {
-                favorites = favorites.filter(n => n !== deviceName); 
-            } else {
-                favorites.push(deviceName);
-            }
-            localStorage.setItem('deviceFavorites', JSON.stringify(favorites));
-            
-            renderFavorites();
-            updateHeartIcons();
-            applyFilterAndSearch();
-        }
-
-        renderFavorites();
-        updateHeartIcons();
-
-
-        // ----------------------------------------------------
-        // LÓGICA DO BRILHO NOS CARDS E CLIQUE NO CORAÇÃO
-        // ----------------------------------------------------
-        const cards = document.querySelectorAll('.card-wrapper');
-        function removeAllGlows() { cards.forEach(c => c.classList.remove('active-glow')); }
-
-        document.getElementById('device-container').addEventListener('click', (e) => {
-            const favBtn = e.target.closest('.fav-btn');
-            if (favBtn) {
-                e.stopPropagation(); 
-                const deviceRow = favBtn.closest('.device');
-                const deviceName = deviceRow.querySelector('.name').innerText.trim();
-                toggleFavorite(deviceName);
-                return;
-            }
-
-            const card = e.target.closest('.card-wrapper');
-            if (card) {
-                e.stopPropagation(); 
-                const wasActive = card.classList.contains('active-glow');
-                removeAllGlows();
-                if (!wasActive) card.classList.add('active-glow');
-            }
-        });
-
-
-        // ----------------------------------------------------
-        // SISTEMA DE AJUSTES E CONFIGURAÇÕES AVANÇADAS
-        // ----------------------------------------------------
-        const themesConfig = {
-            default:    { bg: 'linear-gradient(135deg, #0f0f11 0%, #1a1a24 100%)' },
-            darkblue:   { bg: 'linear-gradient(135deg, #0b132b 0%, #1c2541 100%)' },
-            darkgreen:  { bg: 'linear-gradient(135deg, #061a14 0%, #0f3d2e 100%)' },
-            darkpurple: { bg: 'linear-gradient(135deg, #1a0b2e 0%, #32174d 100%)' },
-            darkred:    { bg: 'linear-gradient(135deg, #2b0c0c 0%, #4a1515 100%)' },
-            darkteal:   { bg: 'linear-gradient(135deg, #062329 0%, #10434f 100%)' }
-        };
-
+        const resetAllBtn = document.getElementById('reset-all-btn');
         const colorDots = document.querySelectorAll('.color-dot');
-        const resetThemeBtn = document.getElementById('reset-theme-btn');
+        const mockupItems = document.querySelectorAll('.mockup-item');
+        
         const blurToggle = document.getElementById('blur-toggle');
         const solidCardsToggle = document.getElementById('solid-cards-toggle');
         const hidePendingToggle = document.getElementById('hide-pending-toggle');
+        
+        const tabInicio = document.getElementById('tab-inicio');
+        const tabBuscar = document.getElementById('tab-buscar');
+        const tabAjustes = document.getElementById('tab-ajustes');
+        const mainContent = document.getElementById('main-content');
+        const ajustesView = document.getElementById('ajustes-view');
+        
+        const searchBar = document.getElementById('ios-search-bar');
+        const searchInput = document.getElementById('search-input');
+        const wrappers = document.querySelectorAll('.card-wrapper');
+        const noResults = document.getElementById('no-results');
+        
+        const filterBtn = document.getElementById('filter-btn');
+        const filterPopup = document.getElementById('filter-popup');
+        const popupItems = document.querySelectorAll('.popup-item');
+        const filterLabel = document.getElementById('filter-label');
 
+        // TEMAS CONFIG
+        const themesConfig = {
+            default:    { bg: 'linear-gradient(135deg, #0f0f11 0%, #1a1a24 100%)', c1: '#0f0f11' },
+            oled:       { bg: 'linear-gradient(135deg, #000000 0%, #000000 100%)', c1: '#000000' }, 
+            midnight:   { bg: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)', c1: '#020617' },
+            darkblue:   { bg: 'linear-gradient(135deg, #0b132b 0%, #1c2541 100%)', c1: '#0b132b' },
+            darkgreen:  { bg: 'linear-gradient(135deg, #061a14 0%, #0f3d2e 100%)', c1: '#061a14' },
+            darkpurple: { bg: 'linear-gradient(135deg, #1a0b2e 0%, #32174d 100%)', c1: '#1a0b2e' },
+            darkred:    { bg: 'linear-gradient(135deg, #2b0c0c 0%, #4a1515 100%)', c1: '#2b0c0c' },
+            darkpink:   { bg: 'linear-gradient(135deg, #4a1528 0%, #6b1d3a 100%)', c1: '#4a1528' },
+            darkgold:   { bg: 'linear-gradient(135deg, #2b200b 0%, #4a3810 100%)', c1: '#2b200b' },
+            darkorange: { bg: 'linear-gradient(135deg, #331400 0%, #5c2400 100%)', c1: '#331400' },
+            darkteal:   { bg: 'linear-gradient(135deg, #062329 0%, #10434f 100%)', c1: '#062329' },
+            darkslate:  { bg: 'linear-gradient(135deg, #1e222a 0%, #2d333e 100%)', c1: '#1e222a' }
+        };
+
+        // CARREGA PREFERÊNCIAS SALVAS
         let currentSavedTheme = localStorage.getItem('siteTheme') || 'default';
-        const isBlurDisabled = localStorage.getItem('siteBlur') === 'true';
-        const isSolidCards = localStorage.getItem('siteSolidCards') === 'true'; 
-        const isHidePending = localStorage.getItem('siteHidePending') === 'true'; 
+        let currentNavStyle = localStorage.getItem('siteNavStyle') || 'pill';
+        let isBlurDisabled = localStorage.getItem('siteBlur') === 'true';
+        let isSolidCards = localStorage.getItem('siteSolidCards') === 'true'; 
+        let isHidePending = localStorage.getItem('siteHidePending') === 'true';
+        let activeFilter = 'todos';
+        let activeBgLayer = 1;
 
+        // NOTIFICAÇÃO INSTALAR
+        if (!localStorage.getItem('hideInstallPrompt') && installPrompt) {
+            setTimeout(() => { installPrompt.classList.add('show'); }, 3000);
+        }
+        if(btnClose) btnClose.addEventListener('click', () => { installPrompt.classList.remove('show'); localStorage.setItem('hideInstallPrompt', 'true'); });
+        if(btnAdd) btnAdd.addEventListener('click', () => { alert('Para adicionar, clique nos 3 pontinhos do navegador e selecione "Adicionar à Tela Inicial".'); installPrompt.classList.remove('show'); localStorage.setItem('hideInstallPrompt', 'true'); });
+
+        // TEMA COM CROSSFADE LENTO E CORREÇÃO DO EFEITO ELÁSTICO
         function applyTheme(themeName, save = false) {
             const t = themesConfig[themeName] || themesConfig.default;
-            document.documentElement.style.setProperty('--bg-gradient', t.bg);
+            
+            document.documentElement.style.backgroundColor = t.c1;
+            document.body.style.backgroundColor = t.c1;
+            
+            const layer1 = document.getElementById('bg-layer-1');
+            const layer2 = document.getElementById('bg-layer-2');
+            
+            if (activeBgLayer === 1) {
+                layer2.style.background = t.bg;
+                layer2.style.opacity = '1';
+                layer1.style.opacity = '0';
+                activeBgLayer = 2;
+            } else {
+                layer1.style.background = t.bg;
+                layer1.style.opacity = '1';
+                layer2.style.opacity = '0';
+                activeBgLayer = 1;
+            }
+            
             if (save) {
                 colorDots.forEach(d => d.classList.remove('active'));
                 const activeDot = document.querySelector(`.color-dot[data-theme="${themeName}"]`);
@@ -671,130 +730,206 @@
                 localStorage.setItem('siteTheme', themeName);
             }
         }
+        colorDots.forEach(dot => { dot.addEventListener('click', () => applyTheme(dot.getAttribute('data-theme'), true)); });
 
-        colorDots.forEach(dot => {
-            dot.addEventListener('mouseenter', () => applyTheme(dot.getAttribute('data-theme'), false));
-            dot.addEventListener('mouseleave', () => applyTheme(currentSavedTheme, false));
-            dot.addEventListener('click', () => applyTheme(dot.getAttribute('data-theme'), true));
-        });
-        resetThemeBtn.addEventListener('click', () => applyTheme('default', true));
+        // SISTEMA DA BARRA DE NAVEGAÇÃO
+        function applyNavStyle(style, save = false) {
+            if(style === 'taskbar') {
+                document.body.classList.add('nav-taskbar');
+            } else {
+                document.body.classList.remove('nav-taskbar');
+            }
 
+            mockupItems.forEach(item => {
+                if(item.getAttribute('data-nav') === style) item.classList.add('active');
+                else item.classList.remove('active');
+            });
+
+            if(save) {
+                currentNavStyle = style;
+                localStorage.setItem('siteNavStyle', style);
+            }
+        }
+        mockupItems.forEach(item => { item.addEventListener('click', () => applyNavStyle(item.getAttribute('data-nav'), true)); });
+
+        // RESET DE FÁBRICA
+        if(resetAllBtn) {
+            resetAllBtn.addEventListener('click', () => {
+                if(confirm('Tem certeza que deseja restaurar tudo? Favoritos, Temas e Configurações serão apagados.')){
+                    localStorage.clear(); location.reload(); 
+                }
+            });
+        }
+
+        // TOGGLES GERAIS
         function toggleClassBody(state, className, storageKey, toggleElement) {
             if (state) { document.body.classList.add(className); } else { document.body.classList.remove(className); }
-            toggleElement.checked = state; localStorage.setItem(storageKey, state);
+            if(toggleElement) toggleElement.checked = state; localStorage.setItem(storageKey, state);
         }
 
-        blurToggle.addEventListener('change', (e) => toggleClassBody(e.target.checked, 'no-blur', 'siteBlur', blurToggle));
-        solidCardsToggle.addEventListener('change', (e) => toggleClassBody(e.target.checked, 'solid-cards', 'siteSolidCards', solidCardsToggle));
-        hidePendingToggle.addEventListener('change', (e) => {
-            localStorage.setItem('siteHidePending', e.target.checked);
-            applyFilterAndSearch();
-        });
+        if(blurToggle) blurToggle.addEventListener('change', (e) => toggleClassBody(e.target.checked, 'no-blur', 'siteBlur', blurToggle));
+        if(solidCardsToggle) solidCardsToggle.addEventListener('change', (e) => toggleClassBody(e.target.checked, 'solid-cards', 'siteSolidCards', solidCardsToggle));
+        if(hidePendingToggle) hidePendingToggle.addEventListener('change', (e) => { localStorage.setItem('siteHidePending', e.target.checked); applyFilterAndSearch(); });
 
-        applyTheme(currentSavedTheme, true);
-        toggleClassBody(isBlurDisabled, 'no-blur', 'siteBlur', blurToggle);
-        toggleClassBody(isSolidCards, 'solid-cards', 'siteSolidCards', solidCardsToggle);
-        hidePendingToggle.checked = isHidePending;
+        // SISTEMA DE FAVORITOS
+        function renderFavorites() {
+            const favList = document.getElementById('favorites-list');
+            const favCard = document.getElementById('favorites-card');
+            if(!favList || !favCard) return;
 
+            let favorites = JSON.parse(localStorage.getItem('deviceFavorites')) || [];
+            favList.innerHTML = ''; 
 
-        // ----------------------------------------------------
-        // NAVEGAÇÃO, FILTRO E PESQUISA
-        // ----------------------------------------------------
-        const tabInicio = document.getElementById('tab-inicio');
-        const tabBuscar = document.getElementById('tab-buscar');
-        const tabAjustes = document.getElementById('tab-ajustes');
-        const mainContent = document.getElementById('main-content');
-        const ajustesView = document.getElementById('ajustes-view');
-        const searchBar = document.getElementById('ios-search-bar');
-        const searchInput = document.getElementById('search-input');
-        const wrappers = document.querySelectorAll('.card-wrapper');
-        const noResults = document.getElementById('no-results');
-        const filterBtn = document.getElementById('filter-btn');
-        const filterPopup = document.getElementById('filter-popup');
-        const popupItems = document.querySelectorAll('.popup-item');
-        const filterLabel = document.getElementById('filter-label');
-
-        let activeFilter = 'todos';
-
-        function resetSearch() {
-            searchInput.value = ''; activeFilter = 'todos';
-            popupItems.forEach(i => i.classList.remove('active'));
-            document.querySelector('[data-value="todos"]').classList.add('active');
-            filterLabel.innerText = 'Filtro'; applyFilterAndSearch();
+            if (favorites.length === 0) {
+                favCard.style.display = 'none'; favCard.classList.remove('animate-fav-card');
+            } else {
+                if(favCard.style.display === 'none') {
+                    favCard.style.display = 'flex'; void favCard.offsetWidth; favCard.classList.add('animate-fav-card');
+                }
+                const allOriginalDevices = Array.from(document.querySelectorAll('.card-wrapper:not(#favorites-card) .device'));
+                favorites.forEach(favName => {
+                    const original = allOriginalDevices.find(el => el.querySelector('.name').innerText.trim() === favName);
+                    if (original) { const clone = original.cloneNode(true); favList.appendChild(clone); }
+                });
+            }
         }
 
+        function updateHeartIcons() {
+            let favorites = JSON.parse(localStorage.getItem('deviceFavorites')) || [];
+            document.querySelectorAll('.device').forEach(deviceEl => {
+                const nameNode = deviceEl.querySelector('.name');
+                if(!nameNode) return;
+                const name = nameNode.innerText.trim();
+                const favBtn = deviceEl.querySelector('.fav-btn');
+                if(favBtn) { if (favorites.includes(name)) favBtn.classList.add('active'); else favBtn.classList.remove('active'); }
+            });
+        }
+
+        function toggleFavorite(deviceName) {
+            let favorites = JSON.parse(localStorage.getItem('deviceFavorites')) || [];
+            if (favorites.includes(deviceName)) favorites = favorites.filter(n => n !== deviceName); 
+            else favorites.push(deviceName);
+            localStorage.setItem('deviceFavorites', JSON.stringify(favorites));
+            renderFavorites(); updateHeartIcons(); applyFilterAndSearch();
+        }
+
+        // GLOW NOS CARDS E CLIQUE NO CORAÇÃO
+        function removeAllGlows() { wrappers.forEach(c => c.classList.remove('active-glow')); }
+        const deviceContainer = document.getElementById('device-container');
+        if(deviceContainer) {
+            deviceContainer.addEventListener('click', (e) => {
+                const favBtn = e.target.closest('.fav-btn');
+                if (favBtn) {
+                    e.stopPropagation(); 
+                    const deviceRow = favBtn.closest('.device');
+                    toggleFavorite(deviceRow.querySelector('.name').innerText.trim()); return;
+                }
+                const card = e.target.closest('.card-wrapper');
+                if (card) {
+                    e.stopPropagation(); const wasActive = card.classList.contains('active-glow');
+                    removeAllGlows(); if (!wasActive) card.classList.add('active-glow');
+                }
+            });
+        }
+
+        // FILTRO E BUSCA (SPOTLIGHT MODE)
         function applyFilterAndSearch() {
+            if(!searchInput) return;
             const term = searchInput.value.toLowerCase().trim();
-            const hidePending = document.getElementById('hide-pending-toggle').checked;
+            const hidePending = hidePendingToggle ? hidePendingToggle.checked : false;
             let globalMatch = false;
 
             wrappers.forEach(wrapper => {
                 const category = wrapper.querySelector('.category');
+                if(!category) return;
                 const devices = category.querySelectorAll('.device');
                 let hasVisibleDevice = false;
 
                 devices.forEach(device => {
-                    const name = device.querySelector('.name').innerText.toLowerCase();
+                    const nameNode = device.querySelector('.name');
+                    if(!nameNode) return;
+                    const name = nameNode.innerText.toLowerCase();
                     const status = device.getAttribute('data-status');
                     
-                    if (hidePending && status === 'nao-recebeu') {
-                        device.style.display = 'none'; return;
-                    }
-
-                    const matchesSearch = name.includes(term);
-                    const matchesFilter = (activeFilter === 'todos' || status === activeFilter);
-
-                    if (matchesSearch && matchesFilter) {
+                    if (hidePending && status === 'nao-recebeu') { device.style.display = 'none'; return; }
+                    
+                    if (name.includes(term) && (activeFilter === 'todos' || status === activeFilter)) {
                         device.style.display = 'flex'; hasVisibleDevice = true; globalMatch = true;
-                    } else {
-                        device.style.display = 'none';
-                    }
+                    } else { device.style.display = 'none'; }
                 });
-                wrapper.style.display = hasVisibleDevice ? 'flex' : 'none';
+
+                if(hasVisibleDevice) {
+                    wrapper.style.display = 'flex';
+                    wrapper.classList.add('match');
+                } else {
+                    wrapper.style.display = 'none';
+                    wrapper.classList.remove('match');
+                }
             });
-            noResults.style.display = (!globalMatch) ? 'block' : 'none';
+            if(noResults) noResults.style.display = (!globalMatch) ? 'block' : 'none';
         }
 
-        searchInput.addEventListener('input', applyFilterAndSearch);
+        function resetSearch() {
+            if(searchInput) searchInput.value = ''; activeFilter = 'todos';
+            popupItems.forEach(i => i.classList.remove('active'));
+            const todosBtn = document.querySelector('[data-value="todos"]');
+            if(todosBtn) todosBtn.classList.add('active');
+            if(filterLabel) filterLabel.innerText = 'Filtro'; applyFilterAndSearch();
+        }
 
-        filterBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (filterPopup.classList.contains('show')) closeFilterMenu(); 
-            else { filterPopup.classList.add('show'); filterBtn.classList.add('menu-open'); }
-        });
-
-        function closeFilterMenu() { filterPopup.classList.remove('show'); filterBtn.classList.remove('menu-open'); }
+        function closeFilterMenu() { if(filterPopup) filterPopup.classList.remove('show'); if(filterBtn) filterBtn.classList.remove('menu-open'); }
+        if(searchInput) searchInput.addEventListener('input', applyFilterAndSearch);
+        if(filterBtn) filterBtn.addEventListener('click', (e) => { e.stopPropagation(); if (filterPopup.classList.contains('show')) closeFilterMenu(); else { filterPopup.classList.add('show'); filterBtn.classList.add('menu-open'); }});
 
         popupItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation(); popupItems.forEach(i => i.classList.remove('active')); item.classList.add('active');
-                activeFilter = item.getAttribute('data-value'); filterLabel.innerText = item.innerText === 'Todos' ? 'Filtro' : item.innerText;
+                activeFilter = item.getAttribute('data-value'); if(filterLabel) filterLabel.innerText = item.innerText === 'Todos' ? 'Filtro' : item.innerText;
                 applyFilterAndSearch(); closeFilterMenu();
             });
         });
 
-        tabInicio.addEventListener('click', () => {
-            document.querySelectorAll('.apple-nav-item').forEach(el => el.classList.remove('active')); tabInicio.classList.add('active');
-            mainContent.style.display = 'block'; ajustesView.style.display = 'none'; searchBar.classList.remove('active');
-            resetSearch(); window.scrollTo({ top: 0, behavior: 'smooth' });
+        // NAVEGAÇÃO ENTRE ABAS
+        if(tabInicio) tabInicio.addEventListener('click', () => { 
+            document.querySelectorAll('.apple-nav-item').forEach(el => el.classList.remove('active')); tabInicio.classList.add('active'); 
+            if(mainContent) mainContent.style.display = 'block'; 
+            if(ajustesView) ajustesView.style.display = 'none'; 
+            if(searchBar) searchBar.classList.remove('active'); 
+            document.body.classList.remove('search-mode'); 
+            resetSearch(); window.scrollTo({ top: 0, behavior: 'smooth' }); 
         });
 
-        tabBuscar.addEventListener('click', () => {
-            document.querySelectorAll('.apple-nav-item').forEach(el => el.classList.remove('active')); tabBuscar.classList.add('active');
-            mainContent.style.display = 'block'; ajustesView.style.display = 'none'; searchBar.classList.add('active');
-            setTimeout(() => { searchInput.focus(); }, 300);
+        // Ativa o Modo Spotlight com scroll instantâneo pra não travar a visualização
+        if(tabBuscar) tabBuscar.addEventListener('click', () => { 
+            document.querySelectorAll('.apple-nav-item').forEach(el => el.classList.remove('active')); tabBuscar.classList.add('active'); 
+            if(mainContent) mainContent.style.display = 'block'; 
+            if(ajustesView) ajustesView.style.display = 'none'; 
+            if(searchBar) searchBar.classList.add('active'); 
+            document.body.classList.add('search-mode'); 
+            window.scrollTo({ top: 0, behavior: 'instant' }); 
+            setTimeout(() => { if(searchInput) searchInput.focus(); }, 300); 
         });
 
-        tabAjustes.addEventListener('click', () => {
-            document.querySelectorAll('.apple-nav-item').forEach(el => el.classList.remove('active')); tabAjustes.classList.add('active');
-            mainContent.style.display = 'none'; searchBar.classList.remove('active'); resetSearch(); ajustesView.style.display = 'block';
+        if(tabAjustes) tabAjustes.addEventListener('click', () => { 
+            document.querySelectorAll('.apple-nav-item').forEach(el => el.classList.remove('active')); tabAjustes.classList.add('active'); 
+            if(mainContent) mainContent.style.display = 'none'; 
+            if(searchBar) searchBar.classList.remove('active'); 
+            document.body.classList.remove('search-mode');
+            resetSearch(); if(ajustesView) ajustesView.style.display = 'block'; 
         });
 
         window.addEventListener('scroll', () => { removeAllGlows(); closeFilterMenu(); }, { passive: true });
-        document.addEventListener('click', (e) => {
-            if(!e.target.closest('.card-wrapper') && !e.target.closest('.apple-pill-nav')) removeAllGlows();
-            if(!e.target.closest('.filter-wrapper')) closeFilterMenu();
-        });
+        document.addEventListener('click', (e) => { if(!e.target.closest('.card-wrapper') && !e.target.closest('.apple-pill-nav')) removeAllGlows(); if(!e.target.closest('.filter-wrapper')) closeFilterMenu(); });
+
+        // INICIALIZAÇÃO GERAL
+        applyTheme(currentSavedTheme, true);
+        applyNavStyle(currentNavStyle, false);
+        toggleClassBody(isBlurDisabled, 'no-blur', 'siteBlur', blurToggle);
+        toggleClassBody(isSolidCards, 'solid-cards', 'siteSolidCards', solidCardsToggle);
+        if(hidePendingToggle) hidePendingToggle.checked = isHidePending;
+        
+        renderFavorites();
+        updateHeartIcons();
     </script>
 </body>
 </html>
