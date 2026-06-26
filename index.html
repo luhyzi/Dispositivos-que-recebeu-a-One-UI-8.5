@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atualização One UI 8.5</title>
+    
+    <!-- ÍCONE E MANIFESTO PARA A TELA INICIAL (APP NATIVO) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjgyZjYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhODU1ZjciLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxwYXRoIGQ9Ik0zMjAgMTQ0SDE5MmMtMjYuNSAwLTQ4IDIxLjUtNDggNDh2MTI4YzAgMjYuNSA0xLjUgNDggNDggNDhoMTI4YzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjE5MmMwLTI2LjUtMjEuNS00OC00OC00OHptLTE2IDIzMkgxOTJjLTE3LjYgMC0zMi0xNC40LTMyLTMyVjIwOGMwLTE3LjYgMTQuNC0zMiAzMi0zMmgxMTJjMTcuNiAwIDMyIDE0LjQgMzIgMzJ2MTM2YzAgMTcuNi0xNC40IDMyLTMyIDMyem0tNDAtMTEyYTQ4IDQ4IDAgMSAwIDAtOTYgNDggNDggMCAwIDAgMCA5NnoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjgyZjYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhODU1ZjciLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxwYXRoIGQ9Ik0zMjAgMTQ0SDE5MmMtMjYuNSAwLTQ4IDIxLjUtNDggNDh2MTI4YzAgMjYuNSA0xLjUgNDggNDggNDhoMTI4YzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjE5MmMwLTI2LjUtMjEuNS00OC00OC00OHptLTE2IDIzMkgxOTJjLTE3LjYgMC0zMi0xNC40LTMyLTMyVjIwOGMwLTE3LjYgMTQuNC0zMiAzMi0zMmgxMTJjMTcuNiAwIDMyIDE0LjQgMzIgMzJ2MTM2YzAgMTcuNi0xNC40IDMyLTMyIDMyem0tNDAtMTEyYTQ4IDQ4IDAgMSAwIDAtOTYgNDggNDggMCAwIDAgMCA5NnoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
+    <meta name="theme-color" content="#0f0f11">
+    <link rel="manifest" href='data:application/manifest+json;utf8,{"name":"Atualização One UI","short_name":"One UI","start_url":".","display":"standalone","background_color":"#0f0f11","theme_color":"#0f0f11","icons":[{"src":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjgyZjYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhODU1ZjciLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxwYXRoIGQ9Ik0zMjAgMTQ0SDE5MmMtMjYuNSAwLTQ4IDIxLjUtNDggNDh2MTI4YzAgMjYuNSA0xLjUgNDggNDggNDhoMTI4YzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjE5MmMwLTI2LjUtMjEuNS00OC00OC00OHptLTE2IDIzMkgxOTJjLTE3LjYgMC0zMi0xNC40LTMyLTMyVjIwOGMwLTE3LjYgMTQuNC0zMiAzMi0zMmgxMTJjMTcuNiAwIDMyIDE0LjQgMzIgMzJ2MTM2YzAgMTcuNi0xNC40IDMyLTMyIDMyem0tNDAtMTEyYTQ4IDQ4IDAgMSAwIDAtOTYgNDggNDggMCAwIDAgMCA5NnoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=","sizes":"512x512","type":"image/svg+xml"}]}'>
+    
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         :root {
-            /* COR DINÂMICA (Tema Padrão Branco) */
             --accent-bg: #ffffff;
             --toggle-circle: #0f0f11;
             
@@ -34,46 +40,16 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 
-           O html assume a cor base do tema para evitar clarões brancos
-           ao usar o "efeito elástico" rolando até o fim no celular.
-        */
-        html {
-            background-color: #0f0f11;
-            transition: background-color 1.5s ease;
-        }
+        html { background-color: #0f0f11; transition: background-color 1.5s ease; }
+        body { background: transparent; color: var(--text-main); padding-bottom: 200px; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
-        body {
-            background: transparent;
-            color: var(--text-main);
-            padding-bottom: 200px;
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
-        }
-
-        /* =========================================
-           SISTEMA DE TRANSIÇÃO DO FUNDO LENTA (1.5s)
-           ========================================= */
-        .bg-layer {
-            position: fixed; inset: 0; z-index: -2;
-            transition: opacity 1.5s ease-in-out;
-        }
+        .bg-layer { position: fixed; inset: 0; z-index: -2; transition: opacity 1.5s ease-in-out; }
         #bg-layer-1 { opacity: 1; background: linear-gradient(135deg, #0f0f11 0%, #1a1a24 100%); }
         #bg-layer-2 { opacity: 0; background: linear-gradient(135deg, #0f0f11 0%, #1a1a24 100%); }
 
-        /* O FADE-OUT PRETO FIXO NO TOPO */
-        .top-gradient-dark {
-            position: fixed; top: 0; left: 0; width: 100%; height: 160px;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 35%, transparent 100%);
-            z-index: 95; pointer-events: none;
-        }
+        .top-gradient-dark { position: fixed; top: 0; left: 0; width: 100%; height: 160px; background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 35%, transparent 100%); z-index: 95; pointer-events: none; }
 
-        /* CAMADA DE DESFOQUE GLOBAL DA PESQUISA */
-        .search-overlay {
-            position: fixed; inset: 0; z-index: 88;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
-        }
+        .search-overlay { position: fixed; inset: 0; z-index: 88; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
         body.search-mode .search-overlay { opacity: 1; pointer-events: auto; }
         body.search-mode main { position: relative; z-index: 89; }
 
@@ -93,7 +69,7 @@
 
         h1 { font-size: 2.2rem; margin-bottom: 25px; font-weight: 700; color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
 
-        .legend { display: flex; flex-direction: column; gap: 15px; width: fit-content; margin-bottom: 20px; background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); padding: 20px 30px; border-radius: 16px; box-shadow: var(--glass-shadow); transition: all 0.3s; }
+        .legend { display: flex; flex-direction: column; gap: 15px; width: fit-content; margin-bottom: 20px; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); padding: 20px 30px; border-radius: 16px; box-shadow: var(--glass-shadow); transition: all 0.3s; }
         .legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
         .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
         .dot.green { background-color: var(--green); box-shadow: 0 0 10px var(--green); }
@@ -106,10 +82,9 @@
         .pulse-dot { width: 10px; height: 10px; background-color: var(--green); border-radius: 50%; display: inline-block; box-shadow: 0 0 8px var(--green); animation: pulse-animation 2s infinite; }
         @keyframes pulse-animation { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
 
-        /* TELEGRAM RESTAURADO: Mantém o brilho animado original independente do tema */
-        .telegram-pill { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(36, 161, 222, 0.15); border: 1px solid rgba(36, 161, 222, 0.4); border-radius: 50px; font-size: 0.85rem; font-weight: 600; color: #38bdf8; text-decoration: none; z-index: 1; transition: all 0.3s ease; }
-        .telegram-pill::before { content: ''; position: absolute; inset: -1px; border-radius: 50px; background: linear-gradient(90deg, #3b82f6, #0ea5e9, #a855f7, #3b82f6); background-size: 300% 100%; filter: blur(8px); opacity: 0.6; z-index: -1; animation: telegram-glow 4s linear infinite; pointer-events: none; }
-        .telegram-pill:hover { transform: translateY(-2px); background: rgba(36, 161, 222, 0.25); }
+        .telegram-pill { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; font-size: 0.85rem; font-weight: 600; color: #fff; text-decoration: none; z-index: 1; transition: all 0.3s ease; }
+        .telegram-pill::before { content: ''; position: absolute; inset: -1px; border-radius: 50px; background: linear-gradient(90deg, #3b82f6, #0ea5e9, #a855f7, #3b82f6); background-size: 300% 100%; filter: blur(8px); opacity: 0.6; z-index: -1; animation: telegram-glow 4s linear infinite; pointer-events: none; transition: 1.5s ease;}
+        .telegram-pill:hover { transform: translateY(-2px); background: rgba(255,255,255,0.1); }
         .telegram-pill:hover::before { opacity: 1; filter: blur(10px); }
         @keyframes telegram-glow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
@@ -123,14 +98,12 @@
         .filter-pill svg { width: 16px; height: 16px; color: var(--text-muted); transition: transform 0.2s ease; }
         .filter-pill.menu-open svg { transform: rotate(180deg); }
 
-        .filter-popup { position: absolute; top: calc(100% + 8px); right: 0; min-width: 170px; padding: 6px; z-index: 110; background: rgba(30, 30, 35, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); opacity: 0; transform: scale(0.9) translateY(-10px); pointer-events: none; transform-origin: top right; transition: opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s cubic-bezier(0.25, 1, 0.5, 1); }
+        .filter-popup { position: absolute; top: calc(100% + 8px); right: 0; min-width: 170px; padding: 6px; z-index: 110; background: rgba(30, 30, 35, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); opacity: 0; transform: scale(0.9) translateY(-10px); pointer-events: none; transform-origin: top right; transition: opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s cubic-bezier(0.25, 1, 0.5, 1); }
         .filter-popup.show { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
-        /* Item do popup fica com a cor do tema apenas no texto para elegância */
-        .popup-item { padding: 10px 14px; font-size: 0.9rem; font-weight: 500; color: var(--text-main); border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s; }
+        .popup-item { padding: 10px 14px; font-size: 0.9rem; font-weight: 500; color: var(--text-main); border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.15s; }
         .popup-item:hover { background: rgba(255, 255, 255, 0.08); }
         .popup-item.active { background: rgba(255, 255, 255, 0.12); color: var(--accent-bg); font-weight: 600; }
 
-        /* GRID E MODO SPOTLIGHT */
         main { max-width: 900px; margin: 0 auto; padding: 0 20px 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
         body.search-mode main { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: flex-start !important; padding-top: 100px !important; padding-bottom: 250px !important; min-height: 100vh; }
         body.search-mode .card-wrapper { width: 100% !important; max-width: 450px !important; }
@@ -157,7 +130,6 @@
         .device:not(:last-child) { border-bottom: 1px dashed rgba(255,255,255,0.05); }
         .device-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;}
 
-        /* MODELOS MODO DESENVOLVEDOR */
         .model-code { display: none; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; font-weight: normal; margin-left: -5px;}
         body.dev-mode .model-code { display: inline-block; animation: fadeIn 0.3s forwards;}
 
@@ -167,7 +139,6 @@
         .date-pill.tbd { color: var(--text-muted); background: rgba(255, 255, 255, 0.05); }
         .date-pill.available { color: #4ade80; background: rgba(34, 197, 94, 0.1); }
 
-        /* SISTEMA DE FAVORITOS */
         @keyframes popFavCard { 0% { opacity: 0; transform: translateY(-20px) scale(0.95); } 60% { opacity: 1; transform: translateY(5px) scale(1.02); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
         .animate-fav-card { animation: popFavCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         @keyframes popResult { 0% { opacity: 0; transform: translateY(20px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
@@ -182,7 +153,7 @@
         @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
 
         /* =========================================
-           NAVEGAÇÃO INFERIOR COM COR DINÂMICA
+           NAVEGAÇÃO INFERIOR E SISTEMA DE ESTILOS
            ========================================= */
         .apple-pill-nav { 
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
@@ -197,9 +168,7 @@
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 1.5s ease; user-select: none; 
         }
         
-        /* O ÍCONE DA NAVEGAÇÃO RECEBE A COR DO TEMA, E O FUNDO FICA PADRÃO (#3a3a3c) */
-        .apple-nav-item.active { background: var(--apple-active-bg); color: var(--accent-bg); }
-        
+        .apple-nav-item.active { background: rgba(255, 255, 255, 0.08); color: var(--accent-bg); }
         .apple-nav-item svg { width: 22px; height: 22px; transition: transform 0.2s; }
         .apple-nav-item:active svg { transform: scale(0.9); }
         .apple-nav-item span { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.3px; }
@@ -306,9 +275,8 @@
         
         .toggle-switch { position: relative; display: inline-block; width: 52px; height: 30px; flex-shrink: 0; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.15); transition: .3s; border-radius: 34px; border: 1px solid rgba(255,255,255,0.05); }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.15); transition: .3s; border-radius: 34px; border: 1px solid rgba(255,255,255,0.05); }
         .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: var(--toggle-circle, white); transition: .3s cubic-bezier(0.25, 1, 0.5, 1), background-color 1.5s ease; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(0,0,0,0.1); }
-        /* Toggles com a cor do tema */
         input:checked + .slider { background-color: var(--accent-bg); border-color: var(--accent-bg); transition: background-color 1.5s ease, border-color 1.5s ease;}
         input:checked + .slider:before { transform: translateX(22px); }
 
@@ -335,7 +303,7 @@
     <!-- CAMADA DE DESFOQUE QUANDO A PESQUISA ABRE -->
     <div id="search-overlay" class="search-overlay"></div>
 
-    <!-- POP-UP DE PERMISSÃO DE NOTIFICAÇÃO (NOVO) -->
+    <!-- POP-UP DE PERMISSÃO DE NOTIFICAÇÃO -->
     <div id="notification-modal-overlay" class="notification-modal-overlay">
         <div class="notification-modal">
             <div class="nm-icon">
@@ -366,9 +334,9 @@
             </div>
 
             <div class="status-badges">
-                <div class="badge">Atualizado: 22 de junho</div>
+                <div class="badge">Atualizado: 26 de junho</div>
                 <div class="badge badge-live"><span class="pulse-dot"></span> Ao vivo</div>
-                <!-- Botão Telegram Restaurado Fielmente -->
+                <!-- Botão Telegram -->
                 <a href="https://t.me/samsungapksnew" target="_blank" class="telegram-pill">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-1.442 4.195c.205.34.604.304.81.109l2.254-2.189 4.697 3.465c.865.478 1.487.23 1.704-.79l3.082-14.51c.32-1.298-.485-1.89-1.281-1.247z"/></svg>
                     Samsung Apk News
@@ -399,7 +367,6 @@
                 </div>
             </div>
 
-            <!-- LINHA S -->
             <div class="card-wrapper"><div class="card-glow"></div><div class="category"><h2>Linha S25</h2>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">S25</span><span class="model-code"> (SM-S931B)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">S25+</span><span class="model-code"> (SM-S936B)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
@@ -432,7 +399,6 @@
                 <div class="device" data-status="nao-recebeu"><div class="device-group"><span class="name">S21 FE</span><span class="model-code"> (SM-G990E)</span><span class="date-pill scheduled">Junho</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot red"></span></div></div>
             </div></div>
 
-            <!-- LINHA A -->
             <div class="card-wrapper"><div class="card-glow"></div><div class="category"><h2>Linha A7x</h2>
                 <div class="device" data-status="nao-recebeu"><div class="device-group"><span class="name">A73</span><span class="model-code"> (SM-A736B)</span><span class="date-pill scheduled">Junho</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot red"></span></div></div>
             </div></div>
@@ -454,7 +420,7 @@
             <div class="card-wrapper"><div class="card-glow"></div><div class="category"><h2>Linha A2x</h2>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A26</span><span class="model-code"> (SM-A266B)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A25</span><span class="model-code"> (SM-A256B)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
-                <div class="device" data-status="nao-recebeu"><div class="device-group"><span class="name">A24</span><span class="model-code"> (SM-A245F)</span><span class="date-pill tbd">Sem previsão</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot red"></span></div></div>
+                <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A24</span><span class="model-code"> (SM-A245F)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
             </div></div>
 
             <div class="card-wrapper"><div class="card-glow"></div><div class="category"><h2>Linha A1x</h2>
@@ -553,29 +519,6 @@
                 </div>
             </div>
 
-            <!-- FUNÇÕES EXTRAS E DEVELOPER MODE -->
-            <div class="setting-item">
-                <div class="setting-info">
-                    <label><i data-lucide="vibrate" style="width:16px;height:16px;color:var(--accent-bg);transition:color 1.5s ease;"></i> Vibração Tátil</label>
-                    <span>Vibração suave ao tocar (Apenas Android).</span>
-                </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="vibration-toggle" checked>
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <div class="setting-item">
-                <div class="setting-info">
-                    <label><i data-lucide="volume-2" style="width:16px;height:16px;color:var(--accent-bg);transition:color 1.5s ease;"></i> Sons de Interface</label>
-                    <span>Efeitos sonoros nativos ao navegar e clicar.</span>
-                </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="sound-toggle" checked>
-                    <span class="slider"></span>
-                </label>
-            </div>
-
             <div class="setting-item">
                 <div class="setting-info">
                     <label><i data-lucide="cpu" style="width:16px;height:16px;color:var(--accent-bg);transition:color 1.5s ease;"></i> Modo Desenvolvedor</label>
@@ -654,52 +597,6 @@
     <script>
         lucide.createIcons();
 
-        // 1. ÁUDIO NATIVO E VIBRAÇÃO
-        let audioCtx;
-        function initAudio() {
-            if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-            if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-        }
-        document.body.addEventListener('click', initAudio, { once: true });
-
-        function playSound(type) {
-            const isSoundEnabled = document.getElementById('sound-toggle') && document.getElementById('sound-toggle').checked;
-            if (!isSoundEnabled || !audioCtx) return;
-            try {
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-                const osc = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                if (type === 'pop') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
-                    gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-                    osc.start(audioCtx.currentTime);
-                    osc.stop(audioCtx.currentTime + 0.05);
-                } else if (type === 'tick') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.03);
-                    gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
-                    osc.start(audioCtx.currentTime);
-                    osc.stop(audioCtx.currentTime + 0.03);
-                }
-            } catch(e) {}
-        }
-
-        function vibrate(ms) {
-            const isVibEnabled = document.getElementById('vibration-toggle') && document.getElementById('vibration-toggle').checked;
-            if (isVibEnabled && navigator.vibrate) {
-                navigator.vibrate(ms);
-            }
-        }
-
-        // 2. SISTEMA REAL DE NOTIFICAÇÕES (PUSH FRONT-END E POP-UP)
         const notifOverlay = document.getElementById('notification-modal-overlay');
         const btnAllowNotif = document.getElementById('btn-allow-notif');
         const btnDenyNotif = document.getElementById('btn-deny-notif');
@@ -713,13 +610,11 @@
         }
 
         btnDenyNotif.addEventListener('click', () => {
-            playSound('pop'); vibrate(15);
             notifOverlay.classList.remove('show');
             localStorage.setItem('notifPrompted', 'true');
         });
 
         btnAllowNotif.addEventListener('click', () => {
-            playSound('pop'); vibrate(15);
             notifOverlay.classList.remove('show');
             localStorage.setItem('notifPrompted', 'true');
             
@@ -733,7 +628,6 @@
             });
         });
 
-        // 3. ELEMENTOS DOM E VARIÁVEIS
         const colorDots = document.querySelectorAll('.color-dot');
         const mockupItems = document.querySelectorAll('.mockup-item');
         
@@ -741,8 +635,6 @@
         const solidCardsToggle = document.getElementById('solid-cards-toggle');
         const hidePendingToggle = document.getElementById('hide-pending-toggle');
         const devModeToggle = document.getElementById('dev-mode-toggle');
-        const vibrationToggle = document.getElementById('vibration-toggle');
-        const soundToggle = document.getElementById('sound-toggle');
         const resetAllBtn = document.getElementById('reset-all-btn');
         
         const tabInicio = document.getElementById('tab-inicio');
@@ -776,8 +668,6 @@
         let activeBgLayer = 1;
         let activeFilter = 'todos';
 
-        // FUNÇÕES PRINCIPAIS E LÓGICA
-
         function applyTheme(themeName, save = false) {
             const t = themesConfig[themeName] || themesConfig.default;
             
@@ -795,7 +685,6 @@
             }
             
             if (save) {
-                vibrate([10, 30, 10]); playSound('pop');
                 colorDots.forEach(d => d.classList.remove('active'));
                 const activeDot = document.querySelector(`.color-dot[data-theme="${themeName}"]`);
                 if (activeDot) activeDot.classList.add('active');
@@ -815,7 +704,6 @@
             });
 
             if(save) {
-                vibrate(15); playSound('tick');
                 currentNavStyle = style; localStorage.setItem('siteNavStyle', style);
             }
         }
@@ -835,7 +723,6 @@
         }
 
         function handleToggleEvent(e, className, storageKey, toggleElement) {
-            playSound('pop'); vibrate(15);
             toggleClassBody(e.target.checked, className, storageKey, toggleElement);
         }
 
@@ -843,11 +730,7 @@
         if(solidCardsToggle) solidCardsToggle.addEventListener('change', (e) => handleToggleEvent(e, 'solid-cards', 'siteSolidCards', solidCardsToggle));
         if(devModeToggle) devModeToggle.addEventListener('change', (e) => handleToggleEvent(e, 'dev-mode', 'siteDevMode', devModeToggle));
         
-        if(vibrationToggle) vibrationToggle.addEventListener('change', (e) => { playSound('pop'); vibrate(15); localStorage.setItem('siteVibration', e.target.checked); });
-        if(soundToggle) soundToggle.addEventListener('change', (e) => { vibrate(15); localStorage.setItem('siteSound', e.target.checked); playSound('pop'); });
-
         if(hidePendingToggle) hidePendingToggle.addEventListener('change', (e) => {
-            playSound('pop'); vibrate(15);
             localStorage.setItem('siteHidePending', e.target.checked); applyFilterAndSearch();
         });
 
@@ -890,7 +773,6 @@
             else favorites.push(deviceName);
             localStorage.setItem('deviceFavorites', JSON.stringify(favorites));
             
-            playSound('pop'); vibrate(20);
             renderFavorites(); updateHeartIcons(); applyFilterAndSearch();
         }
 
@@ -907,7 +789,7 @@
                 if (card) {
                     e.stopPropagation(); const wasActive = card.classList.contains('active-glow');
                     removeAllGlows(); 
-                    if (!wasActive) { card.classList.add('active-glow'); playSound('tick'); vibrate(10); }
+                    if (!wasActive) { card.classList.add('active-glow'); }
                 }
             });
         }
@@ -967,7 +849,6 @@
         if(filterBtn) {
             filterBtn.addEventListener('click', (e) => { 
                 e.stopPropagation(); 
-                playSound('tick'); vibrate(10);
                 const filterPopup = document.getElementById('filter-popup');
                 if (filterPopup.classList.contains('show')) closeFilterMenu(); 
                 else { filterPopup.classList.add('show'); filterBtn.classList.add('menu-open'); }
@@ -978,7 +859,6 @@
         popupItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation(); 
-                playSound('tick'); vibrate(15);
                 popupItems.forEach(i => i.classList.remove('active')); item.classList.add('active');
                 activeFilter = item.getAttribute('data-value'); 
                 const filterLabel = document.getElementById('filter-label');
@@ -988,7 +868,6 @@
         });
 
         function handleTabClick(tabId) {
-            vibrate(10); playSound('tick');
             document.querySelectorAll('.apple-nav-item').forEach(el => el.classList.remove('active')); 
             document.getElementById('tab-' + tabId).classList.add('active'); 
             
@@ -1013,24 +892,17 @@
         window.addEventListener('scroll', () => { removeAllGlows(); closeFilterMenu(); }, { passive: true });
         document.addEventListener('click', (e) => { if(!e.target.closest('.card-wrapper') && !e.target.closest('.apple-pill-nav')) removeAllGlows(); if(!e.target.closest('.filter-wrapper')) closeFilterMenu(); });
 
-        // LOAD INIT
         applyTheme(currentSavedTheme, true);
         applyNavStyle(currentNavStyle, false);
         
         let isBlurDis = localStorage.getItem('siteBlur') === 'true';
         let isSolidC = localStorage.getItem('siteSolidCards') === 'true'; 
         let isDevMode = localStorage.getItem('siteDevMode') === 'true';
-        let isVib = localStorage.getItem('siteVibration');
-        if (isVib === null) isVib = true; else isVib = (isVib === 'true');
-        let isSnd = localStorage.getItem('siteSound');
-        if (isSnd === null) isSnd = true; else isSnd = (isSnd === 'true');
-
+        
         toggleClassBody(isBlurDis, 'no-blur', 'siteBlur', blurToggle);
         toggleClassBody(isSolidC, 'solid-cards', 'siteSolidCards', solidCardsToggle);
         toggleClassBody(isDevMode, 'dev-mode', 'siteDevMode', devModeToggle);
         
-        if(vibrationToggle) vibrationToggle.checked = isVib;
-        if(soundToggle) soundToggle.checked = isSnd;
         if(hidePendingToggle) hidePendingToggle.checked = localStorage.getItem('siteHidePending') === 'true';
         
         renderFavorites();
