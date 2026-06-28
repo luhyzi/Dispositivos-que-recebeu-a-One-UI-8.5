@@ -153,32 +153,60 @@
         @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
 
         /* =========================================
-           NAVEGAÇÃO INFERIOR E SISTEMA DE ESTILOS
+           NOVA NAVEGAÇÃO INFERIOR: INDICADOR DESLIZANTE
            ========================================= */
         .apple-pill-nav { 
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
             display: inline-flex; padding: 5px; border-radius: 40px; z-index: 100; 
             background: var(--apple-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
             border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); 
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            
+            /* Variáveis que controlam onde o fundo branco está */
+            --indicator-x: 5px; 
+            --indicator-w: 80px;
         }
+
+        /* A CAIXA QUE DESLIZA POR TRÁS DOS BOTÕES */
+        .nav-indicator {
+            position: absolute; top: 5px; left: 0; 
+            height: 60px; width: var(--indicator-w);
+            transform: translateX(var(--indicator-x));
+            background: rgba(255, 255, 255, 0.08); /* Cor base opaca */
+            border-radius: 32px; z-index: 0; pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                        width 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                        box-shadow 0.3s ease, 
+                        background 0.3s ease;
+        }
+
+        /* QUANDO O USUÁRIO SEGURA A BARRA (DRAG), ACENDE O GLOW DO TEMA */
+        .apple-pill-nav.is-pressing .nav-indicator {
+            box-shadow: 0 0 20px var(--accent-bg); 
+            background: rgba(255, 255, 255, 0.15); 
+        }
+
         .apple-nav-item { 
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; 
             width: 80px; height: 60px; border-radius: 32px; color: var(--apple-inactive-text); cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 1.5s ease; user-select: none; 
+            transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1); user-select: none; z-index: 1; /* Z-index para ficar acima do indicador */
+            position: relative;
         }
         
-        .apple-nav-item.active { background: rgba(255, 255, 255, 0.08); color: var(--accent-bg); }
+        /* O fundo agora é o indicador, o item ativo só ganha cor do texto/ícone */
+        .apple-nav-item.active { color: var(--accent-bg); }
         .apple-nav-item svg { width: 22px; height: 22px; transition: transform 0.2s; }
         .apple-nav-item:active svg { transform: scale(0.9); }
         .apple-nav-item span { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.3px; }
 
+        /* MODO TASKBAR (BARRA OPACA) ATUALIZADO PRO INDICADOR DESLIZANTE */
         body.nav-taskbar .apple-pill-nav {
             bottom: 0; left: 0; width: 100%; transform: translateX(0); border-radius: 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.08);
             background: var(--apple-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             justify-content: space-evenly; padding: 5px 0 calc(5px + env(safe-area-inset-bottom)); box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.4);
         }
-        body.nav-taskbar .apple-nav-item { border-radius: 12px; height: 55px; }
+        body.nav-taskbar .apple-nav-item { height: 55px; }
+        body.nav-taskbar .nav-indicator { height: 55px; border-radius: 12px; }
 
         /* BARRA DE PESQUISA COM GLOW BRANCO */
         .ios-search-bar { 
@@ -427,7 +455,7 @@
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A17 5G</span><span class="model-code"> (SM-A176B)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A17 LTE</span><span class="model-code"> (SM-A175F)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A16 5G</span><span class="model-code"> (SM-A166B)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
-                <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A16 LTE</span><span class="model-code"> (SM-A165F)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
+                <div class="device" data-status="distribuicao"><div class="device-group"><span class="name">A16 LTE</span><span class="model-code"> (SM-A165F)</span><span class="date-pill scheduled">31 de maio a junho</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot yellow"></span></div></div>
                 <div class="device" data-status="atualizado"><div class="device-group"><span class="name">A15 5G</span><span class="model-code"> (SM-A156B)</span><span class="date-pill available">Atualizado</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot green"></span></div></div>
                 <div class="device" data-status="distribuicao"><div class="device-group"><span class="name">A15 LTE</span><span class="model-code"> (SM-A155F)</span><span class="date-pill distributing">Em distribuição</span></div><div class="device-actions"><button class="fav-btn" title="Favoritar"><i data-lucide="heart"></i></button><span class="dot yellow"></span></div></div>
             </div></div>
@@ -519,6 +547,7 @@
                 </div>
             </div>
 
+            <!-- MODO DESENVOLVEDOR -->
             <div class="setting-item">
                 <div class="setting-info">
                     <label><i data-lucide="cpu" style="width:16px;height:16px;color:var(--accent-bg);transition:color 1.5s ease;"></i> Modo Desenvolvedor</label>
@@ -578,8 +607,11 @@
         <input type="text" id="search-input" placeholder="Buscar dispositivo..." autocomplete="off">
     </div>
 
-    <!-- BARRA DE NAVEGAÇÃO -->
-    <div class="apple-pill-nav">
+    <!-- BARRA DE NAVEGAÇÃO INTERATIVA -->
+    <div class="apple-pill-nav" id="main-nav">
+        <!-- O fundo branco que desliza suavemente de uma aba pra outra -->
+        <div class="nav-indicator" id="nav-indicator"></div>
+        
         <div class="apple-nav-item active" id="tab-inicio">
             <i data-lucide="home" stroke-width="2.5"></i>
             <span>Início</span>
@@ -597,37 +629,12 @@
     <script>
         lucide.createIcons();
 
-        const notifOverlay = document.getElementById('notification-modal-overlay');
-        const btnAllowNotif = document.getElementById('btn-allow-notif');
-        const btnDenyNotif = document.getElementById('btn-deny-notif');
-
-        if (!localStorage.getItem('notifPrompted') && 'Notification' in window) {
-            setTimeout(() => {
-                if(Notification.permission === 'default') {
-                    notifOverlay.classList.add('show');
-                }
-            }, 2500); 
-        }
-
-        btnDenyNotif.addEventListener('click', () => {
-            notifOverlay.classList.remove('show');
-            localStorage.setItem('notifPrompted', 'true');
-        });
-
-        btnAllowNotif.addEventListener('click', () => {
-            notifOverlay.classList.remove('show');
-            localStorage.setItem('notifPrompted', 'true');
-            
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    new Notification('One UI 8.5', {
-                        body: 'Notificações ativadas com sucesso! Você será avisado de novas atualizações.',
-                        icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzYjgyZjYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhODU1ZjciLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxwYXRoIGQ9Ik0zMjAgMTQ0SDE5MmMtMjYuNSAwLTQ4IDIxLjUtNDggNDh2MTI4YzAgMjYuNSA0xLjUgNDggNDggNDhoMTI4YzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjE5MmMwLTI2LjUtMjEuNS00OC00OC00OHptLTE2IDIzMkgxOTJjLTE3LjYgMC0zMi0xNC40LTMyLTMyVjIwOGMwLTE3LjYgMTQuNC0zMiAzMi0zMmgxMTJjMTcuNiAwIDMyIDE0LjQgMzIgMzJ2MTM2YzAgMTcuNi0xNC40IDMyLTMyIDMyem0tNDAtMTEyYTQ4IDQ4IDAgMSAwIDAtOTYgNDggNDggMCAwIDAgMCA5NnoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4='
-                    });
-                }
-            });
-        });
-
+        // 1. Elementos do DOM
+        const installPrompt = document.getElementById('install-prompt');
+        const btnAdd = document.getElementById('install-btn-add');
+        const btnClose = document.getElementById('install-btn-close');
+        
+        const resetAllBtn = document.getElementById('reset-all-btn');
         const colorDots = document.querySelectorAll('.color-dot');
         const mockupItems = document.querySelectorAll('.mockup-item');
         
@@ -635,7 +642,6 @@
         const solidCardsToggle = document.getElementById('solid-cards-toggle');
         const hidePendingToggle = document.getElementById('hide-pending-toggle');
         const devModeToggle = document.getElementById('dev-mode-toggle');
-        const resetAllBtn = document.getElementById('reset-all-btn');
         
         const tabInicio = document.getElementById('tab-inicio');
         const tabBuscar = document.getElementById('tab-buscar');
@@ -648,6 +654,12 @@
         const wrappers = document.querySelectorAll('.card-wrapper');
         const noResults = document.getElementById('no-results');
         
+        const filterBtn = document.getElementById('filter-btn');
+        const filterPopup = document.getElementById('filter-popup');
+        const popupItems = document.querySelectorAll('.popup-item');
+        const filterLabel = document.getElementById('filter-label');
+
+        // 2. Variáveis Iniciais (LocalStorage)
         const themesConfig = {
             default:    { bg: 'linear-gradient(135deg, #0f0f11 0%, #1a1a24 100%)', c1: '#0f0f11', btnBg: '#ffffff', circle: '#0f0f11' },
             oled:       { bg: 'linear-gradient(135deg, #000000 0%, #000000 100%)', c1: '#000000', btnBg: '#ffffff', circle: '#000000' }, 
@@ -665,12 +677,25 @@
 
         let currentSavedTheme = localStorage.getItem('siteTheme') || 'default';
         let currentNavStyle = localStorage.getItem('siteNavStyle') || 'pill';
+        let isBlurDisabled = localStorage.getItem('siteBlur') === 'true';
+        let isSolidCards = localStorage.getItem('siteSolidCards') === 'true'; 
+        let isHidePending = localStorage.getItem('siteHidePending') === 'true';
+        let isDevMode = localStorage.getItem('siteDevMode') === 'true';
         let activeBgLayer = 1;
         let activeFilter = 'todos';
 
+        // 3. Funções Principais
+
+        // Função de Instalação PWA
+        if (!localStorage.getItem('hideInstallPrompt') && installPrompt) {
+            setTimeout(() => { installPrompt.classList.add('show'); }, 3000);
+        }
+        if(btnClose) btnClose.addEventListener('click', () => { installPrompt.classList.remove('show'); localStorage.setItem('hideInstallPrompt', 'true'); });
+        if(btnAdd) btnAdd.addEventListener('click', () => { alert('Para adicionar, clique nos 3 pontinhos do navegador e selecione "Adicionar à Tela Inicial".'); installPrompt.classList.remove('show'); localStorage.setItem('hideInstallPrompt', 'true'); });
+
+        // Função: Troca de Temas
         function applyTheme(themeName, save = false) {
             const t = themesConfig[themeName] || themesConfig.default;
-            
             document.documentElement.style.backgroundColor = t.c1;
             document.documentElement.style.setProperty('--accent-bg', t.btnBg);
             document.documentElement.style.setProperty('--toggle-circle', t.circle);
@@ -694,6 +719,7 @@
         }
         colorDots.forEach(dot => { dot.addEventListener('click', () => applyTheme(dot.getAttribute('data-theme'), true)); });
 
+        // SISTEMA DA BARRA DE NAVEGAÇÃO
         function applyNavStyle(style, save = false) {
             if(style === 'taskbar') { document.body.classList.add('nav-taskbar'); } 
             else { document.body.classList.remove('nav-taskbar'); }
@@ -705,10 +731,12 @@
 
             if(save) {
                 currentNavStyle = style; localStorage.setItem('siteNavStyle', style);
+                setTimeout(updateNavIndicator, 100); 
             }
         }
         mockupItems.forEach(item => { item.addEventListener('click', () => applyNavStyle(item.getAttribute('data-nav'), true)); });
 
+        // Botão Restaurar Padrão
         if(resetAllBtn) {
             resetAllBtn.addEventListener('click', () => {
                 if(confirm('Tem certeza que deseja restaurar tudo? Favoritos, Temas e Configurações serão apagados.')){
@@ -717,23 +745,18 @@
             });
         }
 
+        // Toggles Gerais
         function toggleClassBody(state, className, storageKey, toggleElement) {
             if (state) { document.body.classList.add(className); } else { document.body.classList.remove(className); }
             if(toggleElement) toggleElement.checked = state; localStorage.setItem(storageKey, state);
         }
 
-        function handleToggleEvent(e, className, storageKey, toggleElement) {
-            toggleClassBody(e.target.checked, className, storageKey, toggleElement);
-        }
+        if(blurToggle) blurToggle.addEventListener('change', (e) => toggleClassBody(e.target.checked, 'no-blur', 'siteBlur', blurToggle));
+        if(solidCardsToggle) solidCardsToggle.addEventListener('change', (e) => toggleClassBody(e.target.checked, 'solid-cards', 'siteSolidCards', solidCardsToggle));
+        if(devModeToggle) devModeToggle.addEventListener('change', (e) => toggleClassBody(e.target.checked, 'dev-mode', 'siteDevMode', devModeToggle));
+        if(hidePendingToggle) hidePendingToggle.addEventListener('change', (e) => { localStorage.setItem('siteHidePending', e.target.checked); applyFilterAndSearch(); });
 
-        if(blurToggle) blurToggle.addEventListener('change', (e) => handleToggleEvent(e, 'no-blur', 'siteBlur', blurToggle));
-        if(solidCardsToggle) solidCardsToggle.addEventListener('change', (e) => handleToggleEvent(e, 'solid-cards', 'siteSolidCards', solidCardsToggle));
-        if(devModeToggle) devModeToggle.addEventListener('change', (e) => handleToggleEvent(e, 'dev-mode', 'siteDevMode', devModeToggle));
-        
-        if(hidePendingToggle) hidePendingToggle.addEventListener('change', (e) => {
-            localStorage.setItem('siteHidePending', e.target.checked); applyFilterAndSearch();
-        });
-
+        // Função: Favoritos
         function renderFavorites() {
             const favList = document.getElementById('favorites-list');
             const favCard = document.getElementById('favorites-card');
@@ -743,15 +766,21 @@
             favList.innerHTML = ''; 
 
             if (favorites.length === 0) {
-                favCard.style.display = 'none'; favCard.classList.remove('animate-fav-card');
+                favCard.style.display = 'none';
+                favCard.classList.remove('animate-fav-card');
             } else {
                 if(favCard.style.display === 'none') {
-                    favCard.style.display = 'flex'; void favCard.offsetWidth; favCard.classList.add('animate-fav-card');
+                    favCard.style.display = 'flex';
+                    void favCard.offsetWidth; 
+                    favCard.classList.add('animate-fav-card');
                 }
                 const allOriginalDevices = Array.from(document.querySelectorAll('.card-wrapper:not(#favorites-card) .device'));
                 favorites.forEach(favName => {
                     const original = allOriginalDevices.find(el => el.querySelector('.name').innerText.trim() === favName);
-                    if (original) { const clone = original.cloneNode(true); favList.appendChild(clone); }
+                    if (original) {
+                        const clone = original.cloneNode(true);
+                        favList.appendChild(clone);
+                    }
                 });
             }
         }
@@ -763,17 +792,29 @@
                 if(!nameNode) return;
                 const name = nameNode.innerText.trim();
                 const favBtn = deviceEl.querySelector('.fav-btn');
-                if(favBtn) { if (favorites.includes(name)) favBtn.classList.add('active'); else favBtn.classList.remove('active'); }
+                
+                if(favBtn) {
+                    if (favorites.includes(name)) {
+                        favBtn.classList.add('active');
+                    } else {
+                        favBtn.classList.remove('active');
+                    }
+                }
             });
         }
 
         function toggleFavorite(deviceName) {
             let favorites = JSON.parse(localStorage.getItem('deviceFavorites')) || [];
-            if (favorites.includes(deviceName)) favorites = favorites.filter(n => n !== deviceName); 
-            else favorites.push(deviceName);
+            if (favorites.includes(deviceName)) {
+                favorites = favorites.filter(n => n !== deviceName); 
+            } else {
+                favorites.push(deviceName); 
+            }
             localStorage.setItem('deviceFavorites', JSON.stringify(favorites));
             
-            renderFavorites(); updateHeartIcons(); applyFilterAndSearch();
+            renderFavorites();
+            updateHeartIcons();
+            applyFilterAndSearch();
         }
 
         function removeAllGlows() { wrappers.forEach(c => c.classList.remove('active-glow')); }
@@ -783,17 +824,22 @@
                 const favBtn = e.target.closest('.fav-btn');
                 if (favBtn) {
                     e.stopPropagation(); 
-                    toggleFavorite(favBtn.closest('.device').querySelector('.name').innerText.trim()); return;
+                    const deviceRow = favBtn.closest('.device');
+                    const deviceName = deviceRow.querySelector('.name').innerText.trim();
+                    toggleFavorite(deviceName);
+                    return;
                 }
                 const card = e.target.closest('.card-wrapper');
                 if (card) {
-                    e.stopPropagation(); const wasActive = card.classList.contains('active-glow');
-                    removeAllGlows(); 
-                    if (!wasActive) { card.classList.add('active-glow'); }
+                    e.stopPropagation(); 
+                    const wasActive = card.classList.contains('active-glow');
+                    removeAllGlows();
+                    if (!wasActive) card.classList.add('active-glow');
                 }
             });
         }
 
+        // Função: Filtro e Busca
         function applyFilterAndSearch() {
             if(!searchInput) return;
             const term = searchInput.value.toLowerCase().trim();
@@ -812,76 +858,150 @@
                     const name = nameNode.innerText.toLowerCase();
                     const status = device.getAttribute('data-status');
                     
-                    if (hidePending && status === 'nao-recebeu') { device.style.display = 'none'; return; }
-                    
-                    if (name.includes(term) && (activeFilter === 'todos' || status === activeFilter)) {
+                    if (hidePending && status === 'nao-recebeu') {
+                        device.style.display = 'none'; return; 
+                    }
+
+                    const matchesSearch = name.includes(term);
+                    const matchesFilter = (activeFilter === 'todos' || status === activeFilter);
+
+                    if (matchesSearch && matchesFilter) {
                         device.style.display = 'flex'; hasVisibleDevice = true; globalMatch = true;
-                    } else { device.style.display = 'none'; }
+                    } else {
+                        device.style.display = 'none';
+                    }
                 });
 
-                if(hasVisibleDevice) { wrapper.style.display = 'flex'; wrapper.classList.add('match'); } 
-                else { wrapper.style.display = 'none'; wrapper.classList.remove('match'); }
+                if(hasVisibleDevice) {
+                    wrapper.style.display = 'flex'; wrapper.classList.add('match');
+                } else {
+                    wrapper.style.display = 'none'; wrapper.classList.remove('match');
+                }
             });
-            const noResults = document.getElementById('no-results');
             if(noResults) noResults.style.display = (!globalMatch) ? 'block' : 'none';
         }
 
         function resetSearch() {
-            if(searchInput) searchInput.value = ''; activeFilter = 'todos';
-            const filterPopup = document.getElementById('filter-popup');
-            if(filterPopup) filterPopup.querySelectorAll('.popup-item').forEach(i => i.classList.remove('active'));
+            if(searchInput) searchInput.value = ''; 
+            activeFilter = 'todos';
+            popupItems.forEach(i => i.classList.remove('active'));
             const todosBtn = document.querySelector('[data-value="todos"]');
             if(todosBtn) todosBtn.classList.add('active');
-            const filterLabel = document.getElementById('filter-label');
-            if(filterLabel) filterLabel.innerText = 'Filtro'; applyFilterAndSearch();
+            if(filterLabel) filterLabel.innerText = 'Filtro'; 
+            applyFilterAndSearch();
         }
 
         function closeFilterMenu() { 
-            const filterPopup = document.getElementById('filter-popup');
-            const filterBtn = document.getElementById('filter-btn');
             if(filterPopup) filterPopup.classList.remove('show'); 
             if(filterBtn) filterBtn.classList.remove('menu-open'); 
         }
-        
+
         if(searchInput) searchInput.addEventListener('input', applyFilterAndSearch);
-        
-        const filterBtn = document.getElementById('filter-btn');
+
         if(filterBtn) {
-            filterBtn.addEventListener('click', (e) => { 
-                e.stopPropagation(); 
-                const filterPopup = document.getElementById('filter-popup');
+            filterBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 if (filterPopup.classList.contains('show')) closeFilterMenu(); 
                 else { filterPopup.classList.add('show'); filterBtn.classList.add('menu-open'); }
             });
         }
 
-        const popupItems = document.querySelectorAll('.popup-item');
         popupItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation(); 
-                popupItems.forEach(i => i.classList.remove('active')); item.classList.add('active');
+                popupItems.forEach(i => i.classList.remove('active')); 
+                item.classList.add('active');
                 activeFilter = item.getAttribute('data-value'); 
-                const filterLabel = document.getElementById('filter-label');
                 if(filterLabel) filterLabel.innerText = item.innerText === 'Todos' ? 'Filtro' : item.innerText;
-                applyFilterAndSearch(); closeFilterMenu();
+                applyFilterAndSearch(); 
+                closeFilterMenu();
             });
         });
 
+        // ----------------------------------------------------
+        // SISTEMA DE INDICADOR DESLIZANTE NA NAVEGAÇÃO
+        // ----------------------------------------------------
+        const navBar = document.getElementById('main-nav');
+        
+        function updateNavIndicator() {
+            const activeEl = document.querySelector('.apple-nav-item.active');
+            if(!activeEl || !navBar) return;
+            const navRect = navBar.getBoundingClientRect();
+            const itemRect = activeEl.getBoundingClientRect();
+            
+            // O transform: translateX faz a caixa escorregar exatamente para a posição x do item
+            const offsetLeft = itemRect.left - navRect.left;
+            
+            navBar.style.setProperty('--indicator-x', `${offsetLeft}px`);
+            navBar.style.setProperty('--indicator-w', `${itemRect.width}px`);
+        }
+
+        let isNavDragging = false;
+        
+        if(navBar) {
+            // Efeitos Touch / Mouse Down
+            navBar.addEventListener('touchstart', () => { isNavDragging = true; navBar.classList.add('is-pressing'); }, {passive: true});
+            window.addEventListener('touchend', () => { isNavDragging = false; navBar.classList.remove('is-pressing'); });
+            
+            navBar.addEventListener('mousedown', () => { isNavDragging = true; navBar.classList.add('is-pressing'); });
+            window.addEventListener('mouseup', () => { isNavDragging = false; navBar.classList.remove('is-pressing'); });
+
+            // Lógica de deslizar as abas arrastando o dedo/mouse
+            navBar.addEventListener('touchmove', (e) => {
+                if(!isNavDragging) return;
+                e.preventDefault(); 
+                const touch = e.touches[0];
+                const elem = document.elementFromPoint(touch.clientX, touch.clientY);
+                if(elem) {
+                    const navItem = elem.closest('.apple-nav-item');
+                    if(navItem && !navItem.classList.contains('active')) {
+                        handleTabClick(navItem.id.replace('tab-', ''));
+                    }
+                }
+            }, { passive: false });
+            
+            navBar.addEventListener('mousemove', (e) => {
+                if(!isNavDragging) return;
+                const elem = document.elementFromPoint(e.clientX, e.clientY);
+                if(elem) {
+                    const navItem = elem.closest('.apple-nav-item');
+                    if(navItem && !navItem.classList.contains('active')) {
+                        handleTabClick(navItem.id.replace('tab-', ''));
+                    }
+                }
+            });
+        }
+
+        // Função unificada de clique de aba (incluindo reposicionamento do indicador)
         function handleTabClick(tabId) {
+            const targetTab = document.getElementById('tab-' + tabId);
+            if(!targetTab) return;
+            
             document.querySelectorAll('.apple-nav-item').forEach(el => el.classList.remove('active')); 
-            document.getElementById('tab-' + tabId).classList.add('active'); 
+            targetTab.classList.add('active'); 
+            
+            // Atualiza a barrinha deslizante
+            updateNavIndicator();
             
             if (tabId === 'inicio') {
-                if(mainContent) mainContent.style.display = 'block'; if(ajustesView) ajustesView.style.display = 'none'; 
-                if(searchBar) searchBar.classList.remove('active'); document.body.classList.remove('search-mode'); 
+                if(mainContent) mainContent.style.display = 'block'; 
+                if(ajustesView) ajustesView.style.display = 'none'; 
+                if(searchBar) searchBar.classList.remove('active'); 
+                document.body.classList.remove('search-mode'); 
                 resetSearch(); window.scrollTo({ top: 0, behavior: 'smooth' }); 
             } else if (tabId === 'buscar') {
-                if(mainContent) mainContent.style.display = 'block'; if(ajustesView) ajustesView.style.display = 'none'; 
-                if(searchBar) searchBar.classList.add('active'); document.body.classList.add('search-mode'); 
-                window.scrollTo({ top: 0, behavior: 'instant' }); setTimeout(() => { if(searchInput) searchInput.focus(); }, 300); 
+                if(mainContent) mainContent.style.display = 'block'; 
+                if(ajustesView) ajustesView.style.display = 'none'; 
+                if(searchBar) searchBar.classList.add('active'); 
+                document.body.classList.add('search-mode'); 
+                window.scrollTo({ top: 0, behavior: 'instant' }); 
+                setTimeout(() => { if(searchInput) searchInput.focus(); }, 300); 
             } else if (tabId === 'ajustes') {
-                if(mainContent) mainContent.style.display = 'none'; if(searchBar) searchBar.classList.remove('active'); 
-                document.body.classList.remove('search-mode'); resetSearch(); if(ajustesView) ajustesView.style.display = 'block'; 
+                if(mainContent) mainContent.style.display = 'none'; 
+                if(searchBar) searchBar.classList.remove('active'); 
+                document.body.classList.remove('search-mode'); 
+                resetSearch(); 
+                if(ajustesView) ajustesView.style.display = 'block'; 
             }
         }
 
@@ -890,23 +1010,28 @@
         if(tabAjustes) tabAjustes.addEventListener('click', () => handleTabClick('ajustes'));
 
         window.addEventListener('scroll', () => { removeAllGlows(); closeFilterMenu(); }, { passive: true });
-        document.addEventListener('click', (e) => { if(!e.target.closest('.card-wrapper') && !e.target.closest('.apple-pill-nav')) removeAllGlows(); if(!e.target.closest('.filter-wrapper')) closeFilterMenu(); });
+        window.addEventListener('resize', updateNavIndicator); 
+        document.addEventListener('click', (e) => { 
+            if(!e.target.closest('.card-wrapper') && !e.target.closest('.apple-pill-nav')) removeAllGlows(); 
+            if(!e.target.closest('.filter-wrapper')) closeFilterMenu(); 
+        });
 
+        // 4. Execuções Finais ao Carregar
         applyTheme(currentSavedTheme, true);
         applyNavStyle(currentNavStyle, false);
         
-        let isBlurDis = localStorage.getItem('siteBlur') === 'true';
-        let isSolidC = localStorage.getItem('siteSolidCards') === 'true'; 
-        let isDevMode = localStorage.getItem('siteDevMode') === 'true';
-        
-        toggleClassBody(isBlurDis, 'no-blur', 'siteBlur', blurToggle);
-        toggleClassBody(isSolidC, 'solid-cards', 'siteSolidCards', solidCardsToggle);
+        toggleClassBody(isBlurDisabled, 'no-blur', 'siteBlur', blurToggle);
+        toggleClassBody(isSolidCards, 'solid-cards', 'siteSolidCards', solidCardsToggle);
         toggleClassBody(isDevMode, 'dev-mode', 'siteDevMode', devModeToggle);
         
-        if(hidePendingToggle) hidePendingToggle.checked = localStorage.getItem('siteHidePending') === 'true';
+        if(hidePendingToggle) hidePendingToggle.checked = isHidePending;
         
         renderFavorites();
         updateHeartIcons();
+        
+        // Timeout para dar tempo das margens e tamanhos carregarem antes de posicionar o slider
+        setTimeout(updateNavIndicator, 100);
+        
     </script>
 </body>
 </html>
