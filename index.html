@@ -66,7 +66,17 @@
         header { max-width: 900px; margin: 0 auto; padding: 110px 20px 20px; text-align: left; position: relative; z-index: 85; transition: opacity 0.3s;}
         body.search-mode header { display: none !important; }
 
-        h1 { font-size: 2.2rem; margin-bottom: 25px; font-weight: 700; color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+        h1 { font-size: 2.2rem; margin-bottom: 25px; font-weight: 700; color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); display: inline-block; transform-origin: left center; will-change: transform, text-shadow;}
+        
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); transform: scale(1); }
+            40% { text-shadow: 0 0 35px rgba(255, 255, 255, 1), 0 0 60px var(--accent-bg, rgba(255, 255, 255, 0.6)); transform: scale(1.02); }
+            100% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); transform: scale(1); }
+        }
+        
+        .animate-title-glow {
+            animation: titleGlow 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
 
         .legend { display: flex; flex-direction: column; gap: 15px; width: fit-content; margin-bottom: 20px; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); padding: 20px 30px; border-radius: 16px; box-shadow: var(--glass-shadow); transition: all 0.3s; }
         .legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
@@ -128,19 +138,21 @@
         
         .device { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 0.95rem; font-weight: 600; pointer-events: none; }
         .device:not(:last-child) { border-bottom: 1px dashed rgba(255,255,255,0.05); }
-        .device-group { display: flex; align-items: center; flex-wrap: wrap;}
+        
+        /* Ajuste do grupo para afastar as pílulas corretamente com gap */
+        .device-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1; }
 
-        .model-code { display: none; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; font-weight: normal; margin-left: 2px; margin-right: 8px;}
+        .model-code { display: none; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; font-weight: normal; }
         body.dev-mode .model-code { display: inline-block; animation: fadeIn 0.3s forwards;}
 
-        .date-pill { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-weight: 600; white-space: nowrap; margin-left: auto; }
+        .date-pill { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-weight: 600; white-space: nowrap; }
         .date-pill.scheduled { color: #60a5fa; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); }
         .date-pill.distributing { color: #eab308; background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.2); }
         .date-pill.testing { color: #d8b4fe; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.2); }
         .date-pill.tbd { color: var(--text-muted); background: rgba(255, 255, 255, 0.05); }
         .date-pill.available { color: #4ade80; background: rgba(34, 197, 94, 0.1); }
         
-        .beta-pill { font-size: 0.65rem; padding: 2px 6px; border-radius: 12px; background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); font-weight: 700; text-transform: uppercase; margin-left: 6px; vertical-align: middle; }
+        .beta-pill { font-size: 0.65rem; padding: 2px 6px; border-radius: 12px; background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); font-weight: 700; text-transform: uppercase; }
 
         @keyframes popFavCard { 0% { opacity: 0; transform: translateY(-20px) scale(0.95); } 60% { opacity: 1; transform: translateY(5px) scale(1.02); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
         .animate-fav-card { animation: popFavCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
@@ -1040,6 +1052,12 @@
         
         // Timeout para dar tempo das margens e tamanhos carregarem antes de posicionar o slider
         setTimeout(updateNavIndicator, 100);
+
+        // Animação inicial de brilho do Título
+        setTimeout(() => {
+            const mainTitle = document.querySelector('header h1');
+            if (mainTitle) mainTitle.classList.add('animate-title-glow');
+        }, 600); // aguarda 600ms após o site carregar
         
     </script>
 </body>
